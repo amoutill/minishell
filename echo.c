@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		echo_cmd(char **argv)
+int	echo_cmd(char **argv)
 {
 	int	i;
 	int	n;
@@ -24,7 +24,7 @@ int		echo_cmd(char **argv)
 		n = 1;
 		i++;
 	}
-		while (argv[i])
+	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		i++;
