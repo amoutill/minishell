@@ -40,11 +40,45 @@
 
 /*STRUCTURES*/
 
+typedef enum	e_tktype
+{
+	word,
+	in_redir,
+	in_here_doc,
+	out_redir,
+	out_append,
+	pope
+}		t_tktype;
+
+typedef struct	s_token	t_token;
+
+typedef struct	s_token
+{
+	char		*str;
+	t_tktype	type;
+	t_token		*next;
+}		t_token;
+
+typedef	struct	s_cmd
+{
+	char	*cmd;
+	int		argc;
+	char	**argv;
+}				t_cmd;
+
 /*FONCTIONS*/
 
-//parse.c
+//token.c
+size_t	tklst_len(t_token *tklst);
+void	tklst_addd(t_token **tklst, char *str, t_tktype type);
+t_token	*magic_tokenizer(char *str);
+t_cmd	*init_cmd(t_token *tklst);
+
+//utils.c
+void	print_tktlst(t_token *token);
 
 //exec.c
+int		exec_cmd(t_cmd *cmd);
 
 //echo.c
 int		echo_cmd(char **argv);

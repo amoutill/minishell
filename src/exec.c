@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/03/28 13:38:26 by blebas           ###   ########.fr       */
+/*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
+/*   Updated: 2024/04/04 19:17:14 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char const *argv[])
+int	exec_cmd(t_cmd *cmd)
 {
-	char	*str;
-	t_token	*tklst;
-	t_cmd	*cmd;
-	(void)argv;
-	(void)argc;
-
-	while (1)
-	{
-		str = readline("minishell $ ");
-		tklst = magic_tokenizer(str);
-		cmd = init_cmd(tklst);
-		exec_cmd(cmd);
-		free(str);
-	}
+	if (strncmp(cmd->argv[0], "echo", 4) == 0)
+		return (echo_cmd(cmd->argv));
+	return (0);
 }

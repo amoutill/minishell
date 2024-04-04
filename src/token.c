@@ -1,46 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/28 16:15:00 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/04 16:18:52 by amoutill         ###   ########.fr       */
+/*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
+/*   Updated: 2024/04/04 19:13:28 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <readline/readline.h>
+#include "minishell.h"
 
-typedef enum	e_tktype
+size_t	tklst_len(t_token *tklst)
 {
-	word,
-	in_redir,
-	in_here_doc,
-	out_redir,
-	out_append,
-	pipe
-}		t_tktype;
+	int	i;
 
-typedef struct	s_token	t_token;
-
-typedef struct	s_token
-{
-	char		*str;
-	t_tktype	type;
-	t_token		*next;
-}		t_token;
-
-typedef	struct	s_cmd
-{
-	char	*cmd;
-	int		argc;
-	char	**argv;
-}				t_cmd;
+	i = 0;
+	while (tklst != NULL)
+	{
+		i++;
+		tklst = tklst->next;
+	}
+	return (i);
+}
 
 void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 {
@@ -49,7 +32,7 @@ void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 	if (!*tklst)
 	{
 		*tklst = malloc(sizeof(t_token));
-		(*tklst)->str = strdup(str);
+		(*tklst)->str = ft_strdup(str);
 		(*tklst)->type = type;
 		(*tklst)->next = NULL;
 		return ;
@@ -58,7 +41,7 @@ void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 	while (ptr->next)
 		ptr = ptr->next;
 	ptr->next = malloc(sizeof(t_token));
-	ptr->next->str = strdup(str);
+	ptr->next->str = ft_strdup(str);
 	ptr->next->type = type;
 	ptr->next->next = NULL;
 }
@@ -84,33 +67,31 @@ t_token	*magic_tokenizer(char *str)
 			++i;
 		end = i;
 		boeuf = malloc(sizeof(char) * (end - start + 1));
-		strlcpy(boeuf, &str[start], end - start + 1);
+		ft_strlcpy(boeuf, &str[start], end - start + 1);
 		tklst_addd(&tklst, boeuf, word);
-		++i;
 	}
 	return (tklst);
 }
 
-void	print_tktlst(t_token *token)
+t_cmd	*init_cmd(t_token *tklst)
 {
-	printf("%s\n", token->str);
-	while (token)
+	int		i;
+	int		j;
+	t_cmd	*cmd;
+
+	j = 0;
+	i = tklst_len(tklst);
+	cmd = malloc(sizeof(t_cmd));
+	cmd->argv = malloc(sizeof(char *) * (i + 1));
+	cmd->argc = i;
+	while (tklst != NULL)
 	{
-		token = token->next;
-		printf("%s\n", token->str);
+		cmd->argv[j] = ft_strdup(tklst->str);
+		tklst = tklst->next;
+		j++;
 	}
+	cmd->argv[j] = NULL;
+	return (cmd);
 }
 
-int	main(int argc, char const *argv[])
-{
-	char	*str;
-	t_token	*tklst;
 
-	while (1)
-	{
-		str = readline("minishell $ ");
-		tklst = magic_tokenizer(str);
-		print_tktlst(tklst);
-		free(str);
-	}
-}

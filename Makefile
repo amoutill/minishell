@@ -15,11 +15,11 @@ NAME	= minishell
 CC		= cc
 RM		= rm -f
 
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror -fsanitize=address
 FT		= Libft
 LIBFT	= $(FT)/libft.a
 
-SOURCE	= src/main.c src/builtins/echo.c
+SOURCE	= src/main.c src/builtins/echo.c src/exec.c src/token.c src/utils.c
 OBJ		= $(SOURCE:.c=.o)
 
 all:		$(NAME)
