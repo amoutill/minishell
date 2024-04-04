@@ -1,32 +1,41 @@
-NAME := minishell
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/04/04 15:15:21 by amoutill          #+#    #+#              #
+#    Updated: 2024/04/04 15:21:52 by amoutill         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-CC := cc
-RM := rm -f
+NAME	= minishell
 
-CFLAGS		= -Wall -Wextra -Werror
-FT			= Libft
-LIBFT		= $(FT)/libft.a
+CC		= cc
+RM		= rm -f
 
-SOURCE := main.c builtins/echo.c
-OBJ 	= $(SOURCE:.c=.o)
+CFLAGS	= -Wall -Wextra -Werror
+FT		= Libft
+LIBFT	= $(FT)/libft.a
 
-all: $(NAME)
+SOURCE	= src/main.c src/builtins/echo.c
+OBJ		= $(SOURCE:.c=.o)
 
-$(NAME): $(LIBFT) $(OBJ)
+all:		$(NAME)
+
+$(NAME):	$(LIBFT) $(OBJ)
 	$(CC) $(CFLAGS) -o $(NAME) -lreadline $(OBJ) $(LIBFT)
 
-$(LIBFT): $(FT)
+$(LIBFT):	$(FT)
 	$(MAKE) -C $(FT)
-	
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
 
-fclean: clean
+fclean:		clean
 	rm -f $(NAME)
 
-re: fclean all
+re:			fclean all
 
-.PHONY: all clear clean fclean re
+.PHONY:		all clear clean fclean re

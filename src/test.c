@@ -6,10 +6,11 @@
 /*   By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 16:15:00 by amoutill          #+#    #+#             */
-/*   Updated: 2024/03/28 20:03:25 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/04 16:18:52 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -34,9 +35,17 @@ typedef struct	s_token
 	t_token		*next;
 }		t_token;
 
+typedef	struct	s_cmd
+{
+	char	*cmd;
+	int		argc;
+	char	**argv;
+}				t_cmd;
 
 void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 {
+	t_token	*ptr;
+
 	if (!*tklst)
 	{
 		*tklst = malloc(sizeof(t_token));
@@ -45,12 +54,13 @@ void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 		(*tklst)->next = NULL;
 		return ;
 	}
-	while ((*tklst)->next)
-		*tklst = (*tklst)->next;
-	(*tklst)->next = malloc(sizeof(t_token));
-	(*tklst)->next->str = strdup(str);
-	(*tklst)->next->type = type;
-	(*tklst)->next = NULL;
+	ptr = *tklst;
+	while (ptr->next)
+		ptr = ptr->next;
+	ptr->next = malloc(sizeof(t_token));
+	ptr->next->str = strdup(str);
+	ptr->next->type = type;
+	ptr->next->next = NULL;
 }
 
 t_token	*magic_tokenizer(char *str)
@@ -84,13 +94,12 @@ t_token	*magic_tokenizer(char *str)
 void	print_tktlst(t_token *token)
 {
 	printf("%s\n", token->str);
-	while (token->next)
+	while (token)
 	{
-		printf("%s\n", token->str);
 		token = token->next;
+		printf("%s\n", token->str);
 	}
 }
-
 
 int	main(int argc, char const *argv[])
 {
