@@ -7,7 +7,7 @@ CFLAGS		= -Wall -Wextra -Werror
 FT			= Libft
 LIBFT		= $(FT)/libft.a
 
-SOURCE := main.c echo.c
+SOURCE := main.c builtins/echo.c
 OBJ 	= $(SOURCE:.c=.o)
 
 all: $(NAME)
