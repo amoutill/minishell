@@ -89,6 +89,7 @@ t_env	*init_env(const char *envp[]);
 //utils.c
 void	print_tktlst(t_token *token);
 void	print_env(t_env *env);
+int		ft_isspace(char c);
 
 //exec.c
 int		exec_cmd(t_cmd *cmd);
