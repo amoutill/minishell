@@ -6,7 +6,7 @@
 /*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/05 16:19:41 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/05 18:54:58 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_env
 	t_env	*next;
 }				t_env;
 
-typedef	struct s_cmd
+typedef struct s_cmd
 {
 	char	*cmd;
 	int		argc;
