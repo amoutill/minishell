@@ -6,7 +6,7 @@
 /*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/04 15:24:31 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/05 16:19:41 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 
 /*STRUCTURES*/
 
-typedef enum	e_tktype
+typedef enum e_tktype
 {
 	word,
 	in_redir,
@@ -50,23 +50,32 @@ typedef enum	e_tktype
 	pope
 }		t_tktype;
 
-typedef struct	s_token	t_token;
+typedef struct s_token	t_token;
 
-typedef struct	s_token
+typedef struct s_token
 {
 	char		*str;
 	t_tktype	type;
 	t_token		*next;
 }		t_token;
 
-typedef	struct	s_cmd
+typedef struct s_env	t_env;
+
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	t_env	*next;
+}				t_env;
+
+typedef	struct s_cmd
 {
 	char	*cmd;
 	int		argc;
 	char	**argv;
 }				t_cmd;
 
-/*FONCTIONS*/
+/*FUNCTIONS*/
 
 //token.c
 size_t	tklst_len(t_token *tklst);
@@ -74,8 +83,12 @@ void	tklst_addd(t_token **tklst, char *str, t_tktype type);
 t_token	*magic_tokenizer(char *str);
 t_cmd	*init_cmd(t_token *tklst);
 
+//env.c
+t_env	*init_env(const char *envp[]);
+
 //utils.c
 void	print_tktlst(t_token *token);
+void	print_env(t_env *env);
 
 //exec.c
 int		exec_cmd(t_cmd *cmd);
