@@ -51,6 +51,7 @@ t_env	*init_env(const char *envp[])
 	char	*key;
 	char	*value;
 
+	env = NULL;
 	while (*envp)
 	{
 		i = 0;
