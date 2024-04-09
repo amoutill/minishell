@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/05 18:54:58 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:42:36 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 # include "../Libft/libft.h"
 
 /*COLORS*/
@@ -79,9 +80,10 @@ typedef struct s_cmd
 
 //token.c
 size_t	tklst_len(t_token *tklst);
-void	tklst_addd(t_token **tklst, char *str, t_tktype type);
+void	tklst_addd(t_token **tklst, t_tktype type);
 t_token	*magic_tokenizer(char *str);
 t_cmd	*init_cmd(t_token *tklst);
+bool	is_token_end(char s);
 
 //env.c
 t_env	*init_env(const char *envp[]);
@@ -90,6 +92,7 @@ t_env	*init_env(const char *envp[]);
 void	print_tktlst(t_token *token);
 void	print_env(t_env *env);
 int		ft_isspace(char c);
+void	free_last(t_token *tklst);
 
 //exec.c
 int		exec_cmd(t_cmd *cmd);
