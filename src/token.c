@@ -6,7 +6,7 @@
 /*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/05 18:54:28 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:39:54 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,27 @@ void	tklst_addd(t_token **tklst, char *str, t_tktype type)
 	ptr->next->str = ft_strdup(str);
 	ptr->next->type = type;
 	ptr->next->next = NULL;
+}
+
+void	tk_add_char(t_token *tklst, char c)
+{
+	char	*buf;
+	size_t	len;
+
+	//len = 0;
+	while (tklst->next)
+		tklst = tklst->next;
+	//if (!tklst->str)
+	//	tklst->str = malloc(sizeof(char) * 2);
+	//else
+	//{
+	buf = tklst->str;
+	len = ft_strlen(buf);
+	tklst->str = malloc(sizeof(char) * (len + 2));
+	ft_strlcpy(tklst->str, buf, -1);
+	//}
+	tklst->str[len + 0] = c;
+	tklst->str[len + 1] = '\0';
 }
 
 t_token	*magic_tokenizer(char *str)
