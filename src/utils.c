@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/09 16:42:09 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:54:05 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,20 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
+}
+
+void	free_last(t_token *tklst)
+{
+	t_token	*prev;
+	
+	while (tklst->next)
+	{
+		prev = tklst;
+		tklst = tklst->next;
+	}
+	if (!tklst->str)
+	{
+		free(tklst);
+		prev->next = NULL;
+	}
 }
