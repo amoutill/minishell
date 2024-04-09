@@ -6,7 +6,7 @@
 /*   By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/05 16:18:57 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/09 16:42:09 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	print_env(t_env *env)
 
 int	ft_isspace(char c)
 {
-	if (c == '\t' || c == '\n' || c == '\v' || c == '\f' || c == '\r' || c == ' ')
+	if (c == '\t' || c == '\n' || c == '\v'
+		|| c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
 }
