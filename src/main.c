@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/05 16:20:07 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/09 18:18:21 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(int argc, char const *argv[], char const *envp[])
 	while (1)
 	{
 		str = readline("minishell $ ");
+		add_history(str);
 		tklst = magic_tokenizer(str);
 		cmd = init_cmd(tklst);
 		exec_cmd(cmd);
