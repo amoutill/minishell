@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 15:43:59 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:46:24 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_cmd
 //token.c
 size_t	tklst_len(t_token *tklst);
 void	tklst_addd(t_token **tklst, t_tktype type);
+void	tk_add_char(t_token *tklst, char c);
 t_token	*magic_tokenizer(char *str);
 t_cmd	*init_cmd(t_token *tklst);
 bool	is_token_end(char s);
@@ -99,5 +100,7 @@ int		exec_cmd(t_cmd *cmd);
 
 //echo.c
 int		echo_cmd(char **argv);
+
+void	parse_squote(t_token *tklst, char **str);
 
 #endif
