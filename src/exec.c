@@ -6,7 +6,7 @@
 /*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/04 19:17:14 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:26:01 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_cmd(t_cmd *cmd)
 {
-	if (strncmp(cmd->argv[0], "echo", 4) == 0)
+	if (ft_strncmp(cmd->argv[0], "echo", 4) == 0)
 		return (echo_cmd(cmd->argv));
 	return (0);
 }
