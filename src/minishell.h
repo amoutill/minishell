@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/09 18:42:36 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:11:17 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
-# include "../Libft/libft.h"
+# include "../libft/libft.h"
 
 /*COLORS*/
 

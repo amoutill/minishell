@@ -6,7 +6,7 @@
 #    By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 15:15:21 by amoutill          #+#    #+#              #
-#    Updated: 2024/04/09 17:18:15 by blebas           ###   ########.fr        #
+#    Updated: 2024/04/10 15:10:35 by amoutill         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC		= cc
 RM		= rm -f
 
 CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
-FT		= Libft
+FT		= libft
 LIBFT	= $(FT)/libft.a
 
 SOURCE	= src/main.c src/exec.c src/token.c src/utils.c src/env.c src/builtins/echo.c src/token_squote.c
@@ -35,7 +35,8 @@ clean:
 
 fclean:		clean
 	rm -f $(NAME)
+	$(MAKE) -C $(FT) fclean
 
 re:			fclean all
 
-.PHONY:		all clear clean fclean re
+.PHONY:		all clean fclean re
