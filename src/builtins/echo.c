@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:55:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/03/29 13:55:30 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/10 18:49:58 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ int	echo_cmd(char **argv)
 		ft_putstr_fd(argv[i], STDOUT_FILENO);
 		i++;
 		if (argv[i])
-			write(STDOUT_FILENO, " ", 1);
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (n == 0)
-		write(STDOUT_FILENO, "\n", 1);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }
