@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/10 15:43:28 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:33:14 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_tktlst(t_token *token)
 {
 	while (token != NULL)
 	{
-		printf("%s\n", token->str);
+		printf("str: %s\n", token->str);
 		token = token->next;
 	}
 }
@@ -41,10 +41,12 @@ int	ft_isspace(char c)
 
 void	free_last(t_token **tklst)
 {
+	t_token	*first;
 	t_token	*prev;
 
 	if (!*tklst)
 		return ;
+	first = *tklst;
 	prev = *tklst;
 	while ((*tklst)->next)
 	{
@@ -53,9 +55,14 @@ void	free_last(t_token **tklst)
 	}
 	if (!(*tklst)->str)
 	{
-		if (prev != (*tklst))
-			prev->next = NULL;
 		free(*tklst);
-		*tklst = NULL;
+		if (prev != *tklst)
+			prev->next = NULL;
+		if (first == *tklst)
+			*tklst = NULL;
+		else
+			*tklst = first;
 	}
+	else if (first != *tklst)
+		*tklst = first;
 }
