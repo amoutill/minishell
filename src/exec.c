@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: blebas <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 15:26:01 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/10 18:52:30 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exec_cmd(t_cmd *cmd)
 {
-	if (ft_strncmp(cmd->argv[0], "echo", 4) == 0)
+	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
 		return (echo_cmd(cmd->argv));
 	return (0);
 }
