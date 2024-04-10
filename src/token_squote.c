@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:48:37 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/09 17:17:00 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:53:20 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,3 +18,4 @@ bool	is_token_end(char s)
 		return (true);
 	return (false);
 }
+
