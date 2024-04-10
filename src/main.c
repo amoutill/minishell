@@ -6,11 +6,12 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/09 18:18:21 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/10 15:29:25 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 int	main(int argc, char const *argv[], char const *envp[])
 {
@@ -26,10 +27,15 @@ int	main(int argc, char const *argv[], char const *envp[])
 	while (1)
 	{
 		str = readline("minishell $ ");
+		if (!str)
+			exit(EXIT_SUCCESS);
 		add_history(str);
 		tklst = magic_tokenizer(str);
-		cmd = init_cmd(tklst);
-		exec_cmd(cmd);
 		free(str);
+		if (tklst)
+		{
+			cmd = init_cmd(tklst);
+			exec_cmd(cmd);
+		}
 	}
 }

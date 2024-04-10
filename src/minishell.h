@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 15:11:17 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:43:59 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_env	*init_env(const char *envp[]);
 void	print_tktlst(t_token *token);
 void	print_env(t_env *env);
 int		ft_isspace(char c);
-void	free_last(t_token *tklst);
+void	free_last(t_token **tklst);
 
 //exec.c
 int		exec_cmd(t_cmd *cmd);
