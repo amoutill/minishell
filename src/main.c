@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 18:33:48 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:22:28 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int argc, char const *argv[], char const *envp[])
 	(void)argv;
 	(void)argc;
 	env = init_env(envp);
-	print_env(env);
+	//print_env(env);
 	while (1)
 	{
 		str = readline("minishell $ ");

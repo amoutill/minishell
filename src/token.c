@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 18:45:09 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:22:01 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	tklst_addd(t_token **tklst, t_tktype type)
 	{
 		*tklst = ft_calloc(1, sizeof(t_token));
 		(*tklst)->type = type;
+		(*tklst)->str = ft_strdup("");
 		return ;
 	}
 	ptr = *tklst;
@@ -41,6 +42,7 @@ void	tklst_addd(t_token **tklst, t_tktype type)
 		ptr = ptr->next;
 	ptr->next = ft_calloc(1, sizeof(t_token));
 	ptr->next->type = type;
+	ptr->next->str = ft_strdup("");
 }
 
 void	tk_add_char(t_token *tklst, char c)
@@ -73,9 +75,10 @@ t_token	*magic_tokenizer(char *str)
 		return (NULL);
 	while (*str)
 	{
-		tklst_addd(&tklst, word);
 		while (isspace(*str))
 			++str;
+		if (*str)
+			tklst_addd(&tklst, word);
 		while (*str && !is_token_end(*str))
 		{
 			if (*str == '\'')
@@ -83,12 +86,17 @@ t_token	*magic_tokenizer(char *str)
 				++str;
 				parse_squote(tklst, &str);
 			}
+			else if (*str == '\"')
+			{
+				++str;
+				parse_dquote(tklst, &str);
+			}
 			else
 				tk_add_char(tklst, *str);
-			++str;
+			if (*str)
+				++str;
 		}
 	}
-	free_last(&tklst);
 	return (tklst);
 }
 

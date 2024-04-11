@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/10 18:33:14 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:21:55 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,4 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
-}
-
-void	free_last(t_token **tklst)
-{
-	t_token	*first;
-	t_token	*prev;
-
-	if (!*tklst)
-		return ;
-	first = *tklst;
-	prev = *tklst;
-	while ((*tklst)->next)
-	{
-		prev = *tklst;
-		*tklst = (*tklst)->next;
-	}
-	if (!(*tklst)->str)
-	{
-		free(*tklst);
-		if (prev != *tklst)
-			prev->next = NULL;
-		if (first == *tklst)
-			*tklst = NULL;
-		else
-			*tklst = first;
-	}
-	else if (first != *tklst)
-		*tklst = first;
 }

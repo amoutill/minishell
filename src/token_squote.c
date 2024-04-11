@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:48:37 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 18:46:41 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 14:10:05 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ void	parse_squote(t_token *tklst, char **str)
 	while (**str && **str != '\'')
 	{
 		tk_add_char(tklst, **str);
+		(*str)++;
+	}
+}
+
+void	parse_dquote(t_token *tklst, char **str)
+{
+	while (**str && **str != '\"')
+	{
+		//if (**str == '$')
+			//parse_envar();
+		//else
+			tk_add_char(tklst, **str);
 		(*str)++;
 	}
 }
