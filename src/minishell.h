@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/11 14:22:11 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:43:22 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,19 @@ typedef struct s_cmd
 size_t	tklst_len(t_token *tklst);
 void	tklst_addd(t_token **tklst, t_tktype type);
 void	tk_add_char(t_token *tklst, char c);
-t_token	*magic_tokenizer(char *str);
+t_token	*magic_tokenizer(t_env *env, char *str);
 t_cmd	*init_cmd(t_token *tklst);
 bool	is_token_end(char s);
 
 //env.c
 t_env	*init_env(const char *envp[]);
+char	*get_env(t_env *env, char *key);
 
 //utils.c
 void	print_tktlst(t_token *token);
 void	print_env(t_env *env);
 int		ft_isspace(char c);
+void	str_add_char(char **str, char c);
 
 //exec.c
 int		exec_cmd(t_cmd *cmd);
@@ -102,5 +104,7 @@ int		echo_cmd(char **argv);
 
 void	parse_squote(t_token *tklst, char **str);
 void	parse_dquote(t_token *tklst, char **str);
+
+void	parse_envar(t_env *env, t_token *tklst, char **cmdline);
 
 #endif
