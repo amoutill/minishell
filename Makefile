@@ -6,7 +6,7 @@
 #    By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/04 15:15:21 by amoutill          #+#    #+#              #
-#    Updated: 2024/04/10 15:10:35 by amoutill         ###   ########.fr        #
+#    Updated: 2024/04/11 17:57:02 by blebas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 FT		= libft
 LIBFT	= $(FT)/libft.a
 
-SOURCE	= src/main.c src/exec.c src/token.c src/utils.c src/env.c src/builtins/echo.c src/token_squote.c
+SOURCE	= src/main.c src/exec.c src/token.c src/utils.c src/env.c src/builtins/echo.c src/token_squote.c src/parse_env.c
 OBJ		= $(SOURCE:.c=.o)
 
 all:		$(NAME)

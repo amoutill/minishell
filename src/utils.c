@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/11 14:21:55 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:09:03 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,23 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
+}
+
+void	str_add_char(char **str, char c)
+{
+	char	*buf;
+	size_t	len;
+
+	len = 0;
+	if (!(*str))
+		*str = malloc(sizeof(char) * 2);
+	else
+	{
+		buf = *str;
+		len = ft_strlen(*str);
+		*str = malloc(sizeof(char) * (len + 2));
+		ft_strlcpy(*str, buf, -1);
+	}
+	(*str)[len + 0] = c;
+	(*str)[len + 1] = '\0';
 }

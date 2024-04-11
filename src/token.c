@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/11 14:22:01 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/11 19:42:47 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,26 +47,12 @@ void	tklst_addd(t_token **tklst, t_tktype type)
 
 void	tk_add_char(t_token *tklst, char c)
 {
-	char	*buf;
-	size_t	len;
-
-	len = 0;
 	while (tklst->next)
 		tklst = tklst->next;
-	if (!tklst->str)
-		tklst->str = malloc(sizeof(char) * 2);
-	else
-	{
-		buf = tklst->str;
-		len = ft_strlen(buf);
-		tklst->str = malloc(sizeof(char) * (len + 2));
-		ft_strlcpy(tklst->str, buf, -1);
-	}
-	tklst->str[len + 0] = c;
-	tklst->str[len + 1] = '\0';
+	str_add_char(&(tklst->str), c);
 }
 
-t_token	*magic_tokenizer(char *str)
+t_token	*magic_tokenizer(t_env *env, char *str)
 {
 	t_token	*tklst;
 
@@ -90,6 +76,11 @@ t_token	*magic_tokenizer(char *str)
 			{
 				++str;
 				parse_dquote(tklst, &str);
+			}
+			else if (*str == '$')
+			{
+				++str;
+				parse_envar(env, tklst, &str);
 			}
 			else
 				tk_add_char(tklst, *str);
