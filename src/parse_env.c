@@ -6,24 +6,24 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:13:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 18:09:23 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 19:45:36 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_last_tk(t_token **tklst)
-{
-	if ((*tklst)->next)
-		free_last_tk(&((*tklst)->next));
-	else
-	{
-		free(*tklst);
-		*tklst = NULL;
-	}
-}
+// void	free_last_tk(t_token **tklst)
+// {
+// 	if ((*tklst)->next)
+// 		free_last_tk(&((*tklst)->next));
+// 	else
+// 	{
+// 		free(*tklst);
+// 		*tklst = NULL;
+// 	}
+// }
 
-int	parse_envar(t_env *env, t_token **tklst, char **cmdline)
+void	parse_envar(t_env *env, t_token **tklst, char **cmdline)
 {
 	char	*key;
 	char	*value;
@@ -36,16 +36,16 @@ int	parse_envar(t_env *env, t_token **tklst, char **cmdline)
 	}
 	if (key == NULL)
 	{
+		if (!(*tklst) || get_last_tk(*tklst)->stop)
+			tklst_addd(tklst, word);
 		tk_add_char(*tklst, '$');
-		return (**cmdline == '\'' || **cmdline == '\"');
+		return ;
 	}
 	value = get_env(env, key);
 	if (!value)
-	{
-		free_last_tk(tklst);
-		return (**cmdline == '\'' || **cmdline == '\"');
-	}
-	//tklst_addd(&tklst, word);
+		return ;
+	if (!(*tklst) || get_last_tk(*tklst)->stop)
+		tklst_addd(tklst, word);
 	ft_skip_spaces(&value);
 	while (*value && !ft_isspace(*value))
 	{
@@ -63,5 +63,4 @@ int	parse_envar(t_env *env, t_token **tklst, char **cmdline)
 			++value;
 		}
 	}
-	return (**cmdline == '\'' || **cmdline == '\"');
 }

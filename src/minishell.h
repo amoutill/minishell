@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 16:32:32 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 19:43:08 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 {
 	char		*str;
 	t_tktype	type;
+	int			stop;
 	t_token		*next;
 }		t_token;
 
@@ -103,10 +104,11 @@ int		exec_cmd(t_cmd *cmd);
 //echo.c
 int		echo_cmd(char **argv);
 
-void	parse_squote(t_token *tklst, char **str);
-void	parse_dquote(t_token *tklst, char **str);
+void	parse_squote(t_token **tklst, char **str);
+void	parse_dquote(t_token **tklst, char **str);
 
-int	parse_envar(t_env *env, t_token **tklst, char **cmdline);
-void	free_last_tk(t_token **tklst);
+void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
+t_token	*get_last_tk(t_token *tklst);
+//void	free_last_tk(t_token **tklst);
 
 #endif

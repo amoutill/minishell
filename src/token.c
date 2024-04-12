@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 18:06:05 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 19:43:26 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,16 @@ void	tk_add_char(t_token *tklst, char c)
 	str_add_char(&(tklst->str), c);
 }
 
+t_token	*get_last_tk(t_token *tklst)
+{
+	while (tklst->next)
+		tklst = tklst->next;
+	return (tklst);
+}
+
 t_token	*magic_tokenizer(t_env *env, char *str)
 {
 	t_token	*tklst;
-	int		envar;
 
 	tklst = NULL;
 	if (!str)
@@ -64,32 +70,32 @@ t_token	*magic_tokenizer(t_env *env, char *str)
 	{
 		while (ft_isspace(*str))
 			++str;
-		if (*str)
-			tklst_addd(&tklst, word);
 		while (*str && !is_token_end(*str))
 		{
 			if (*str == '\'')
 			{
 				++str;
-				parse_squote(tklst, &str);
+				parse_squote(&tklst, &str);
 			}
 			else if (*str == '\"')
 			{
 				++str;
-				parse_dquote(tklst, &str);
+				parse_dquote(&tklst, &str);
 			}
 			else if (*str == '$')
 			{
 				++str;
-				envar = 1;
-				if (!parse_envar(env, &tklst, &str))
-					break;
+				parse_envar(env, &tklst, &str);
 			}
 			else
+			{
+				if (!tklst || get_last_tk(tklst)->stop)
+					tklst_addd(&tklst, word);
 				tk_add_char(tklst, *str);
-			if (*str && !envar)
 				++str;
-			envar = 0;
+			}
+			if (is_token_end(*str) && tklst)
+				get_last_tk(tklst)->stop = 1;
 		}
 	}
 	return (tklst);
