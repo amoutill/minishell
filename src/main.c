@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/11 19:43:34 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:15:57 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char const *argv[], char const *envp[])
 		add_history(str);
 		tklst = magic_tokenizer(env, str);
 		free(str);
-		//print_tktlst(tklst);
+		print_tktlst(tklst);
 		if (tklst)
 		{
 			cmd = init_cmd(tklst);

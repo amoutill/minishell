@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/11 19:42:47 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 18:06:05 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ void	tk_add_char(t_token *tklst, char c)
 t_token	*magic_tokenizer(t_env *env, char *str)
 {
 	t_token	*tklst;
+	int		envar;
 
 	tklst = NULL;
 	if (!str)
 		return (NULL);
 	while (*str)
 	{
-		while (isspace(*str))
+		while (ft_isspace(*str))
 			++str;
 		if (*str)
 			tklst_addd(&tklst, word);
@@ -80,12 +81,15 @@ t_token	*magic_tokenizer(t_env *env, char *str)
 			else if (*str == '$')
 			{
 				++str;
-				parse_envar(env, tklst, &str);
+				envar = 1;
+				if (!parse_envar(env, &tklst, &str))
+					break;
 			}
 			else
 				tk_add_char(tklst, *str);
-			if (*str)
+			if (*str && !envar)
 				++str;
+			envar = 0;
 		}
 	}
 	return (tklst);

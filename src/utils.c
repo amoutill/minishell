@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/11 19:09:03 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:43:52 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ int	ft_isspace(char c)
 		|| c == '\f' || c == '\r' || c == ' ')
 		return (1);
 	return (0);
+}
+
+void	ft_skip_spaces(char **str)
+{
+	while (ft_isspace(**str))
+		++(*str);
 }
 
 void	str_add_char(char **str, char c)
