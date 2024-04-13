@@ -26,13 +26,13 @@ int	main(int argc, char const *argv[], char const *envp[])
 	//print_env(env);
 	while (1)
 	{
-		str = readline("minishell $ ");
+		str = readline("\e[1;36mminishell $\e[0m ");
 		if (!str)
 			exit(EXIT_SUCCESS);
 		add_history(str);
 		tklst = magic_tokenizer(env, str);
 		free(str);
-		print_tktlst(tklst);
+		// print_tktlst(tklst);
 		if (tklst)
 		{
 			cmd = init_cmd(tklst);

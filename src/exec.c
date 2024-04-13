@@ -16,5 +16,9 @@ int	exec_cmd(t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
 		return (echo_cmd(cmd->argv));
+	if (ft_strncmp(cmd->argv[0], "cd", -1) == 0)
+		return (cd_cmd(cmd->argv));
+	if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
+		return (pwd_cmd());
 	return (0);
 }
