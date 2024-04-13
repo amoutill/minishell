@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 /* ***************** */
-/*	    INCLUDES     */
+/*      INCLUDES     */
 /* ***************** */
 
 # include <stdio.h>
@@ -32,7 +32,7 @@
 # include "../libft/libft.h"
 
 /* ***************** */
-/*	     COLORS      */
+/*       COLORS      */
 /* ***************** */
 
 # define NC		"\e[0m"
@@ -44,7 +44,7 @@
 # define BLUE	"\e[1;34m"
 
 /* ***************** */
-/*	   STRUCTURES    */
+/*     STRUCTURES    */
 /* ***************** */
 
 typedef enum e_tktype
@@ -84,7 +84,7 @@ typedef struct s_cmd
 }				t_cmd;
 
 /* ***************** */
-/*	    PARSING      */
+/*      PARSING      */
 /* ***************** */
 
 /* token.c */
@@ -118,7 +118,7 @@ void	ft_skip_spaces(char **str);
 void	str_add_char(char **str, char c);
 
 /* ***************** */
-/*	   BUILTINS      */
+/*     BUILTINS      */
 /* ***************** */
 
 /* echo.c */
