@@ -128,7 +128,7 @@ int		echo_cmd(char **argv);
 int		cd_cmd(char **argv);
 int		pwd_cmd(void);
 
-/* exec.c */
+/* exec_builtins.c */
 int		exec_cmd(t_cmd *cmd);
 
 #endif

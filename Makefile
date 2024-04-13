@@ -19,7 +19,7 @@ CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 FT		= libft
 LIBFT	= $(FT)/libft.a
 
-SOURCE	= src/main.c src/exec.c src/token.c src/utils.c src/env.c src/builtins/cd.c src/builtins/echo.c src/token_squote.c src/parse_env.c
+SOURCE	= src/main.c src/exec_builtins.c src/token.c src/utils.c src/env.c src/builtins/cd.c src/builtins/echo.c src/token_squote.c src/parse_env.c
 OBJ		= $(SOURCE:.c=.o)
 
 all:		$(NAME)
