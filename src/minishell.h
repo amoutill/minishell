@@ -13,7 +13,9 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-/*LIBRARY*/
+/* ***************** */
+/*	    INCLUDES     */
+/* ***************** */
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -29,7 +31,9 @@
 # include <stdbool.h>
 # include "../libft/libft.h"
 
-/*COLORS*/
+/* ***************** */
+/*	     COLORS      */
+/* ***************** */
 
 # define NC		"\e[0m"
 # define YELLOW	"\e[1;33m"
@@ -39,7 +43,9 @@
 # define CYAN	"\e[1;36m"
 # define BLUE	"\e[1;34m"
 
-/*STRUCTURES*/
+/* ***************** */
+/*	   STRUCTURES    */
+/* ***************** */
 
 typedef enum e_tktype
 {
@@ -77,38 +83,52 @@ typedef struct s_cmd
 	char	**argv;
 }				t_cmd;
 
-/*FUNCTIONS*/
+/* ***************** */
+/*	    PARSING      */
+/* ***************** */
 
-//token.c
+/* token.c */
 size_t	tklst_len(t_token *tklst);
 void	tklst_addd(t_token **tklst, t_tktype type);
 void	tk_add_char(t_token *tklst, char c);
+t_token	*get_last_tk(t_token *tklst);
 t_token	*magic_tokenizer(t_env *env, char *str);
 t_cmd	*init_cmd(t_token *tklst);
-bool	is_token_end(char s);
 
-//env.c
+/* token_squote.c */
+bool	is_token_end(char s);
+void	parse_squote(t_token **tklst, char **str);
+void	parse_dquote(t_token **tklst, char **str);
+
+/* env.c */
+t_env	*new_env(char *key, char *value);
+void	set_env(t_env *env, char *key, char *value);
 t_env	*init_env(const char *envp[]);
 char	*get_env(t_env *env, char *key);
 
-//utils.c
+/* parse_env.c */
+void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
+//void	free_last_tk(t_token **tklst);
+
+/* utils.c */
 void	print_tktlst(t_token *token);
 void	print_env(t_env *env);
 int		ft_isspace(char c);
 void	ft_skip_spaces(char **str);
 void	str_add_char(char **str, char c);
 
-//exec.c
-int		exec_cmd(t_cmd *cmd);
+/* ***************** */
+/*	   BUILTINS      */
+/* ***************** */
 
-//echo.c
+/* echo.c */
 int		echo_cmd(char **argv);
 
-void	parse_squote(t_token **tklst, char **str);
-void	parse_dquote(t_token **tklst, char **str);
+/* cd.c */
+int		cd_cmd(char **argv);
+int		pwd_cmd(void);
 
-void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
-t_token	*get_last_tk(t_token *tklst);
-//void	free_last_tk(t_token **tklst);
+/* exec.c */
+int		exec_cmd(t_cmd *cmd);
 
 #endif
