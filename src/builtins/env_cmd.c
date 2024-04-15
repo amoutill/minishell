@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_builtins.c                                    :+:      :+:    :+:   */
+/*   env_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/15 15:28:33 by blebas           ###   ########.fr       */
+/*   Created: 2024/04/15 15:16:58 by blebas            #+#    #+#             */
+/*   Updated: 2024/04/15 15:30:05 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	exec_cmd(t_cmd *cmd, t_env *env)
+int	env_cmd(char **argv, t_env *env)
 {
-	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
-		return (echo_cmd(cmd->argv));
-	if (ft_strncmp(cmd->argv[0], "cd", -1) == 0)
-		return (cd_cmd(cmd->argv));
-	if (ft_strncmp(cmd->argv[0], "pwd", -1) == 0)
-		return (pwd_cmd());
-	if (ft_strncmp(cmd->argv[0], "env", -1) == 0)
-		return (env_cmd(cmd->argv, env));
+	if (argv[1])
+	{
+		ft_putstr_fd("Too many args\n", STDERR_FILENO);
+		return (0);
+	}
+	while (env != NULL)
+	{
+		ft_putstr_fd(env->key, STDOUT_FILENO);
+		ft_putchar_fd('=', STDOUT_FILENO);
+		ft_putstr_fd(env->value, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+		env = env->next;
+	}
 	return (0);
 }
