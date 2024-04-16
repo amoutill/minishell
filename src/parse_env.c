@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:13:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 19:45:36 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:56:13 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ void	parse_envar(t_env *env, t_token **tklst, char **cmdline)
 	char	*value;
 
 	key = NULL;
-	while (**cmdline && !is_token_end(**cmdline) && **cmdline != '\'' && **cmdline != '\"')
+	while (**cmdline && !is_token_end(**cmdline)
+		&& **cmdline != '\'' && **cmdline != '\"')
 	{
 		str_add_char(&key, **cmdline);
 		++(*cmdline);
