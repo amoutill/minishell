@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:44:23 by macbook           #+#    #+#             */
-/*   Updated: 2024/04/15 15:17:07 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/16 15:59:23 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	pwd_cmd(void)
 	size_t	size_dir;
 
 	size_dir = 1024;
-	dir = NULL;
 	dir = malloc(size_dir);
 	if (!dir)
 	{
