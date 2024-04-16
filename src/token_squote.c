@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:48:37 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 19:55:21 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/16 16:25:48 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	parse_squote(t_token **tklst, char **str)
 		tk_add_char(*tklst, **str);
 		(*str)++;
 	}
-	++(*str);
+	if (**str)
+		++(*str);
 }
 
 void	parse_dquote(t_token **tklst, char **str)
@@ -43,5 +44,6 @@ void	parse_dquote(t_token **tklst, char **str)
 			tk_add_char(*tklst, **str);
 		(*str)++;
 	}
-	++(*str);
+	if (**str)
+		++(*str);
 }
