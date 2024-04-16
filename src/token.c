@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/12 19:43:26 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:55:11 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_token	*magic_tokenizer(t_env *env, char *str)
 			else if (*str == '\"')
 			{
 				++str;
-				parse_dquote(&tklst, &str);
+				parse_dquote(env, &tklst, &str);
 			}
 			else if (*str == '$')
 			{

@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/15 15:28:18 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/16 17:54:48 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ t_cmd	*init_cmd(t_token *tklst);
 /* token_squote.c */
 bool	is_token_end(char s);
 void	parse_squote(t_token **tklst, char **str);
-void	parse_dquote(t_token **tklst, char **str);
+void	parse_dquote(t_env *env, t_token **tklst, char **str);
 
 /* env.c */
 t_env	*new_env(char *key, char *value);
