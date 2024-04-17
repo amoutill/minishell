@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/16 17:54:48 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:43:10 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,12 @@ char	*get_env(t_env *env, char *key);
 /* parse_env.c */
 void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
 //void	free_last_tk(t_token **tklst);
+
+/* parse_redir.c */
+void	parse_out_redir(t_token **tklst, char **str);
+void	parse_out_append(t_token **tklst, char **str);
+void	parse_in_redir(t_token **tklst, char **str);
+void	parse_in_here_doc(t_token **tklst, char **str);
 
 /* utils.c */
 void	print_tktlst(t_token *token);

@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/16 17:55:11 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:43:36 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_token	*magic_tokenizer(t_env *env, char *str)
 	{
 		while (ft_isspace(*str))
 			++str;
-		while (*str && !is_token_end(*str))
+		while (*str && !ft_isspace(*str))
 		{
 			if (*str == '\'')
 			{
@@ -86,6 +86,28 @@ t_token	*magic_tokenizer(t_env *env, char *str)
 			{
 				++str;
 				parse_envar(env, &tklst, &str);
+			}
+			else if (*str == '>')
+			{
+				++str;
+				if (*str == '>')
+				{
+					++str;
+					parse_out_append(&tklst, &str);
+				}
+				else
+					parse_out_redir(&tklst, &str);
+			}
+			else if (*str == '<')
+			{
+				++str;
+				if (*str == '<')
+				{
+					++str;
+					parse_in_here_doc(&tklst, &str);
+				}
+				else
+					parse_in_redir(&tklst, &str);
 			}
 			else
 			{
