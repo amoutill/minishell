@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 16:45:32 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 17:21:00 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,75 +56,6 @@ t_token	*get_last_tk(t_token *tklst)
 {
 	while (tklst->next)
 		tklst = tklst->next;
-	return (tklst);
-}
-
-t_token	*magic_tokenizer(t_env *env, char *str)
-{
-	t_token	*tklst;
-
-	tklst = NULL;
-	if (!str)
-		return (NULL);
-	while (*str)
-	{
-		while (ft_isspace(*str))
-			++str;
-		while (*str && !ft_isspace(*str))
-		{
-			if (*str == '\'')
-			{
-				++str;
-				parse_squote(&tklst, &str);
-			}
-			else if (*str == '\"')
-			{
-				++str;
-				parse_dquote(env, &tklst, &str);
-			}
-			else if (*str == '$')
-			{
-				++str;
-				parse_envar(env, &tklst, &str);
-			}
-			else if (*str == '>')
-			{
-				++str;
-				if (*str == '>')
-				{
-					++str;
-					parse_out_append(&tklst, &str);
-				}
-				else
-					parse_out_redir(&tklst, &str);
-			}
-			else if (*str == '<')
-			{
-				++str;
-				if (*str == '<')
-				{
-					++str;
-					parse_in_here_doc(&tklst, &str);
-				}
-				else
-					parse_in_redir(&tklst, &str);
-			}
-			else if (*str == '|')
-			{
-				++str;
-				parse_pipe(&tklst, &str);
-			}
-			else
-			{
-				if (!tklst || get_last_tk(tklst)->stop)
-					tklst_addd(&tklst, word);
-				tk_add_char(tklst, *str);
-				++str;
-			}
-			if (is_token_end(*str) && tklst)
-				get_last_tk(tklst)->stop = 1;
-		}
-	}
 	return (tklst);
 }
 

@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 16:45:03 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:02:28 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,18 @@ size_t	tklst_len(t_token *tklst);
 void	tklst_addd(t_token **tklst, t_tktype type);
 void	tk_add_char(t_token *tklst, char c);
 t_token	*get_last_tk(t_token *tklst);
-t_token	*magic_tokenizer(t_env *env, char *str);
 t_cmd	*init_cmd(t_token *tklst);
 
-/* token_squote.c */
-bool	is_token_end(char s);
-void	parse_squote(t_token **tklst, char **str);
-void	parse_dquote(t_env *env, t_token **tklst, char **str);
+/* tokenizer.c */
+t_token	*magic_tokenizer(t_env *env, char *cmdline);
+
+/* parse_quote.c */
+void	parse_squote(t_token **tklst, char **cmdline);
+void	parse_dquote(t_env *env, t_token **tklst, char **cmdline);
+
+/* parse_utils.c */
+bool	is_token_end(char c);
+bool	is_spec_char(char c);
 
 /* env.c */
 t_env	*new_env(char *key, char *value);
@@ -111,11 +116,11 @@ void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
 //void	free_last_tk(t_token **tklst);
 
 /* parse_redir.c */
-void	parse_out_redir(t_token **tklst, char **str);
-void	parse_out_append(t_token **tklst, char **str);
-void	parse_in_redir(t_token **tklst, char **str);
-void	parse_in_here_doc(t_token **tklst, char **str);
-void	parse_pipe(t_token **tklst, char **str);
+void	parse_out_redir(t_token **tklst, char **cmdline);
+void	parse_out_append(t_token **tklst, char **cmdline);
+void	parse_in_redir(t_token **tklst, char **cmdline);
+void	parse_in_here_doc(t_token **tklst, char **cmdline);
+void	parse_pipe(t_token **tklst, char **cmdline);
 
 /* utils.c */
 void	print_tktlst(t_token *token);

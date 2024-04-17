@@ -1,54 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_squote.c                                     :+:      :+:    :+:   */
+/*   parse_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:48:37 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/16 17:54:55 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 18:04:48 by amoutill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	is_token_end(char s)
-{
-	if (ft_isspace(s) || s == '|' || s == '<' || s == '>')
-		return (true);
-	return (false);
-}
-
-void	parse_squote(t_token **tklst, char **str)
+void	parse_squote(t_token **tklst, char **cmdline)
 {
 	if (!(*tklst) || get_last_tk(*tklst)->stop)
 		tklst_addd(tklst, word);
-	while (**str && **str != '\'')
+	while (**cmdline && **cmdline != '\'')
 	{
-		tk_add_char(*tklst, **str);
-		(*str)++;
+		tk_add_char(*tklst, **cmdline);
+		(*cmdline)++;
 	}
-	if (**str)
-		++(*str);
+	if (**cmdline)
+		++(*cmdline);
 }
 
-void	parse_dquote(t_env *env, t_token **tklst, char **str)
+void	parse_dquote(t_env *env, t_token **tklst, char **cmdline)
 {
 	if (!(*tklst) || get_last_tk(*tklst)->stop)
 		tklst_addd(tklst, word);
-	while (**str && **str != '\"')
+	while (**cmdline && **cmdline != '\"')
 	{
-		if (**str == '$')
+		if (**cmdline == '$')
 		{
-			++(*str);
-			parse_envar(env, tklst, str);
+			++(*cmdline);
+			parse_envar(env, tklst, cmdline);
 		}
 		else
 		{
-			tk_add_char(*tklst, **str);
-			(*str)++;
+			tk_add_char(*tklst, **cmdline);
+			(*cmdline)++;
 		}
 	}
-	if (**str)
-		++(*str);
+	if (**cmdline)
+		++(*cmdline);
 }
