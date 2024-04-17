@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/12 15:43:52 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 15:36:44 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_tktlst(t_token *token)
 {
 	while (token != NULL)
 	{
-		printf("str: %s\n", token->str);
+		printf("str: %s, type: %u\n", token->str, token->type);
 		token = token->next;
 	}
 }
