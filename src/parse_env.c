@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:13:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 18:21:05 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:06:35 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	parse_envar(t_env *env, t_token **tklst, char **cmdline)
 		return ;
 	}
 	value = get_env(env, key);
+	free(key);
 	if (!value)
 		return ;
 	parse_envar_val_to_tk(tklst, value);

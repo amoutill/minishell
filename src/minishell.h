@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 18:02:28 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/17 19:16:10 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char	*cmd;
 	int		argc;
 	char	**argv;
 }				t_cmd;
@@ -110,6 +109,7 @@ t_env	*new_env(char *key, char *value);
 void	set_env(t_env *env, char *key, char *value);
 t_env	*init_env(const char *envp[]);
 char	*get_env(t_env *env, char *key);
+void	free_env(t_env *env);
 
 /* parse_env.c */
 void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
@@ -128,6 +128,12 @@ void	print_env(t_env *env);
 int		ft_isspace(char c);
 void	ft_skip_spaces(char **str);
 void	str_add_char(char **str, char c);
+
+/* token2.c */
+void	free_tklst(t_token *tklst);
+
+/* cmd_utils.c */
+void	free_cmd(t_cmd *cmd);
 
 /* ***************** */
 /*     BUILTINS      */

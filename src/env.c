@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:10:10 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/17 17:22:46 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:52:11 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,16 @@ char	*get_env(t_env *env, char *key)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+void	free_env(t_env *env)
+{
+	if (env != NULL)
+	{
+		free_env(env->next);
+		if (env->value)
+			free(env->value);
+		free(env->key);
+		free(env);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:45:55 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/17 15:36:44 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 19:04:57 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	str_add_char(char **str, char c)
 		len = ft_strlen(*str);
 		*str = malloc(sizeof(char) * (len + 2));
 		ft_strlcpy(*str, buf, -1);
+		free(buf);
 	}
 	(*str)[len + 0] = c;
 	(*str)[len + 1] = '\0';
