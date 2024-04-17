@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 15:09:22 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 15:50:01 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/17 16:47:51 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,14 @@ void	parse_in_here_doc(t_token **tklst, char **str)
 {
 	ft_skip_spaces(str);
 	tklst_addd(tklst, in_here_doc);
+	++str;
+}
+
+void	parse_pipe(t_token **tklst, char **str)
+{
+	ft_skip_spaces(str);
+	tklst_addd(tklst, pope);
+	if (*tklst)
+		get_last_tk(*tklst)->stop = 1;
 	++str;
 }
