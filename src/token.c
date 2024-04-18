@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 16:31:41 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:03:07 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ size_t	tklst_len(t_token *tklst)
 	int	i;
 
 	i = 0;
-	while (tklst != NULL)
+	while (tklst != NULL && tklst->type != pope)
 	{
-		i++;
+		if (tklst->type == word)
+			i++;
 		tklst = tklst->next;
 	}
 	return (i);
@@ -55,25 +56,4 @@ t_token	*get_last_tk(t_token *tklst)
 	while (tklst->next)
 		tklst = tklst->next;
 	return (tklst);
-}
-
-t_cmd	*init_cmd(t_token *tklst)
-{
-	int		i;
-	int		j;
-	t_cmd	*cmd;
-
-	j = 0;
-	i = tklst_len(tklst);
-	cmd = malloc(sizeof(t_cmd));
-	cmd->argv = malloc(sizeof(char *) * (i + 1));
-	cmd->argc = i;
-	while (tklst != NULL && tklst->type == word)
-	{
-		cmd->argv[j] = ft_strdup(tklst->str);
-		tklst = tklst->next;
-		j++;
-	}
-	cmd->argv[j] = NULL;
-	return (cmd);
 }

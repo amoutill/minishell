@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 15:34:56 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/18 17:51:11 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,9 @@ void	str_add_char(char **str, char c);
 
 /* token2.c */
 void	free_tklst(t_token *tklst);
+
+/* init_cmd.c */
+t_cmd	*init_cmd(t_token *tklst);
 
 /* cmd_utils.c */
 void	free_cmd(t_cmd *cmd);
