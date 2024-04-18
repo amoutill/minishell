@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:18:49 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/18 16:13:36 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/18 18:08:42 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*magic_tokenizer(t_env *env, char *cmdline)
 				get_last_tk(tklst)->stop = 1;
 		}
 	}
-	if (tklst && !tklst->err && get_last_tk(tklst)->type)
+	if (tklst && !tklst->err && !get_last_tk(tklst)->str)
 		tokenizer_err_nl(tklst);
 	return (tklst);
 }
