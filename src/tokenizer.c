@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amoutill <amoutill@student.42lehavre.fr>   +#+  +:+       +#+        */
+/*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 17:18:49 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/17 18:20:38 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:13:36 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,22 @@ void	tokenizer_spec(t_env *env, t_token **tklst, char **cmdline)
 		parse_pipe(tklst, cmdline);
 }
 
+void	tokenizer_err_nl(t_token *tklst)
+{
+	tklst->err = 1;
+	print_stx_err(0);
+}
+
 t_token	*magic_tokenizer(t_env *env, char *cmdline)
 {
 	t_token	*tklst;
 
 	tklst = NULL;
-	if (!cmdline)
-		return (NULL);
-	while (*cmdline)
+	while (*cmdline && (!tklst || !tklst->err))
 	{
 		while (ft_isspace(*cmdline))
 			++cmdline;
-		while (*cmdline && !ft_isspace(*cmdline))
+		while (*cmdline && !ft_isspace(*cmdline) && (!tklst || !tklst->err))
 		{
 			if (is_spec_char(*cmdline))
 				tokenizer_spec(env, &tklst, &cmdline);
@@ -65,5 +69,7 @@ t_token	*magic_tokenizer(t_env *env, char *cmdline)
 				get_last_tk(tklst)->stop = 1;
 		}
 	}
+	if (tklst && !tklst->err && get_last_tk(tklst)->type)
+		tokenizer_err_nl(tklst);
 	return (tklst);
 }

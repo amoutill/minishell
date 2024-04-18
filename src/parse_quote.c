@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 16:48:37 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 18:04:48 by amoutill         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:12:07 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	parse_squote(t_token **tklst, char **cmdline)
 		tk_add_char(*tklst, **cmdline);
 		(*cmdline)++;
 	}
+	tk_add_char(*tklst, 0);
 	if (**cmdline)
 		++(*cmdline);
 }
@@ -42,6 +43,7 @@ void	parse_dquote(t_env *env, t_token **tklst, char **cmdline)
 			(*cmdline)++;
 		}
 	}
+	tk_add_char(*tklst, 0);
 	if (**cmdline)
 		++(*cmdline);
 }

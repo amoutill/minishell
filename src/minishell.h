@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 19:16:10 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/18 15:34:56 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@
 # define BLUE	"\e[1;34m"
 
 /* ***************** */
+/*      STRINGS      */
+/* ***************** */
+
+# define STX_ERR "minishell: syntax error near unexpected token `"
+# define STX_ERR_END "'\n"
+
+/* ***************** */
 /*     STRUCTURES    */
 /* ***************** */
 
@@ -64,6 +71,7 @@ typedef struct s_token
 	char		*str;
 	t_tktype	type;
 	int			stop;
+	int			err;
 	t_token		*next;
 }		t_token;
 
@@ -103,6 +111,7 @@ void	parse_dquote(t_env *env, t_token **tklst, char **cmdline);
 /* parse_utils.c */
 bool	is_token_end(char c);
 bool	is_spec_char(char c);
+void	print_stx_err(t_tktype type);
 
 /* env.c */
 t_env	*new_env(char *key, char *value);
