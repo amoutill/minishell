@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 19:33:11 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:47:28 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,16 @@ void	free_tklst(t_token *tklst);
 
 /* init_cmd.c */
 t_cmd	*init_cmd(t_token *tklst);
+char	**init_envp(t_env *env);
 
 /* cmd_utils.c */
 void	free_str_tab(char **strtab);
 void	free_cmd(t_cmd *cmd);
+void	print_str_tab(char **strtab);
 
 /* exec.c */
 char	*ft_which(t_env *env, char *cmd);
+int		exec(t_cmd *cmd, t_env *env);
 
 /* ***************** */
 /*     BUILTINS      */

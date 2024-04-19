@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 20:07:19 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:47:41 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,16 @@ int	main(int argc, char const *argv[], char const *envp[])
 		add_history(cmdline);
 		tklst = magic_tokenizer(env, cmdline);
 		free(cmdline);
-		print_tktlst(tklst);
+		//print_tktlst(tklst);
+		//print_str_tab(init_envp(env));
 		if (tklst)
 		{
 			if (!tklst->err)
 			{
 				cmd = init_cmd(tklst);
 				printf("cmd: %s\n", ft_which(env, cmd->argv[0]));
-				exec_cmd(cmd, env);
+				//exec_cmd(cmd, env);
+				exec(cmd, env);
 				free_cmd(cmd);
 			}
 			free_tklst(tklst);

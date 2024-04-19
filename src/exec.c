@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 19:09:02 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/19 16:24:42 by blebas           ###   ########.fr       */
+/*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
+/*   Updated: 2024/04/19 16:45:59 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_str_tab(char **strtab)
+int	exec(t_cmd *cmd, t_env *env)
 {
-	size_t	i;
+	char	*cmd_path;
+	pid_t	pid;
 
-	i = 0;
-	while (strtab[i])
-		free(strtab[i++]);
-	free(strtab);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	free_str_tab(cmd->argv);
-	free(cmd);
-}
-
-void	print_str_tab(char **strtab)
-{
-	int	i;
-
-	i = 0;
-	while (strtab[i])
+	cmd_path = ft_which(env, cmd->argv[0]);
+	pid = fork();
+	if (pid == 0)
 	{
-		printf("envp : %s\n", strtab[i]);
-		i++;
+		execve(cmd_path, cmd->argv, init_envp(env));
 	}
+	waitpid(pid, NULL, 0);
+	return (0);
 }

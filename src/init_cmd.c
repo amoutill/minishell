@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:50:08 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 17:56:40 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/19 16:44:09 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,41 @@ t_cmd	*init_cmd(t_token *tklst)
 	}
 	cmd->argv[j] = NULL;
 	return (cmd);
+}
+
+int	env_len(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env != NULL)
+	{
+		if (env->value)
+			i++;
+		env = env->next;
+	}
+	return (i);
+}
+
+char	**init_envp(t_env *env)
+{
+	int		i;
+	char	*buf;
+	char	**envp;
+
+	envp = malloc(sizeof(char *) * (env_len(env) + 1));
+	i = 0;
+	while (env != NULL)
+	{
+		if (env->value)
+		{
+			buf = ft_strjoin(env->key, "=");
+			envp[i] = ft_strjoin(buf, env->value);
+			free(buf);
+			i++;
+		}
+		env = env->next;
+	}
+	envp[i] = NULL;
+	return (envp);
 }
