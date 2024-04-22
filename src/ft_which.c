@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:26:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/22 17:05:43 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:41:53 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ char	*compose_cmd_path(char *cmd, char *path)
 	return (join_join_path);
 }
 
+char	*ft_which_err(char *cmd, char **path_tab)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	free_str_tab(path_tab);
+	return (NULL);
+}
+
 char	*ft_which(t_env *env, char *cmd)
 {
 	int			i;
@@ -44,7 +53,7 @@ char	*ft_which(t_env *env, char *cmd)
 	if (ft_strchr(cmd, '/'))
 		return (ft_strdup(cmd));
 	if (*cmd == '\0')
-		return (NULL);
+		return (ft_which_err(cmd, NULL));
 	path_tab = get_path_tab(env);
 	while (path_tab && path_tab[i])
 	{
@@ -57,5 +66,5 @@ char	*ft_which(t_env *env, char *cmd)
 		free(cmd_composed);
 		i++;
 	}
-	return (NULL);
+	return (ft_which_err(cmd, path_tab));
 }

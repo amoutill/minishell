@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/19 16:47:41 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:42:16 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ int	main(int argc, char const *argv[], char const *envp[])
 			if (!tklst->err)
 			{
 				cmd = init_cmd(tklst);
-				printf("cmd: %s\n", ft_which(env, cmd->argv[0]));
-				//exec_cmd(cmd, env);
 				exec(cmd, env);
 				free_cmd(cmd);
 			}

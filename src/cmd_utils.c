@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:09:02 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/19 16:24:42 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:37:57 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_str_tab(char **strtab)
 	size_t	i;
 
 	i = 0;
+	if (!strtab)
+		return ;
 	while (strtab[i])
 		free(strtab[i++]);
 	free(strtab);
