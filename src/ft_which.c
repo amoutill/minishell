@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 18:26:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/19 15:51:33 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/22 17:05:43 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_which(t_env *env, char *cmd)
 	if (*cmd == '\0')
 		return (NULL);
 	path_tab = get_path_tab(env);
-	while (path_tab[i])
+	while (path_tab && path_tab[i])
 	{
 		cmd_composed = compose_cmd_path(cmd, path_tab[i]);
 		if (!stat(cmd_composed, &cmd_stat))
