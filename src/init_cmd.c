@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:50:08 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/19 16:44:09 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/23 15:06:39 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ char	**init_envp(t_env *env)
 	char	*buf;
 	char	**envp;
 
-	envp = malloc(sizeof(char *) * (env_len(env) + 1));
+	envp = malloc(sizeof(char *) * (env_len(env)));
 	i = 0;
 	while (env != NULL)
 	{
-		if (env->value)
+		if (env->value && env->key[0] != '?')
 		{
 			buf = ft_strjoin(env->key, "=");
 			envp[i] = ft_strjoin(buf, env->value);

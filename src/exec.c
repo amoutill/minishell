@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/22 19:57:26 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/23 16:40:16 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,39 @@ void	exit_if_invalid_cmd(char *cmd_path)
 	}
 }
 
-int	exec(t_cmd *cmd, t_env *env)
+void	exec_forked(t_cmd *cmd, t_env *env)
 {
-	char		*cmd_path;
-	char		**envp;
-	pid_t		pid;
+	char	*cmd_path;
+	char	**envp;
 
 	cmd_path = ft_which(env, cmd->argv[0]);
 	if (!cmd_path)
-		return (127);
+		exit(127);
+	exit_if_invalid_cmd(cmd_path);
+	envp = init_envp(env);
+	execve(cmd_path, cmd->argv, envp);
+	perror(cmd_path);
+	free(cmd_path);
+	free_str_tab(envp);
+	exit(126);
+}
+
+int	exec(t_cmd *cmd, t_env *env)
+{
+	pid_t	pid;
+	int		stat_loc;
+	int		retval;
+
+	retval = exec_cmd(cmd, env);
+	if (retval != -1)
+		return (retval);
 	pid = fork();
 	if (pid == 0)
-	{
-		exit_if_invalid_cmd(cmd_path);
-		envp = init_envp(env);
-		execve(cmd_path, cmd->argv, envp);
-		perror(cmd_path);
-		free_str_tab(envp);
-		exit(126);
-	}
-	free(cmd_path);
-	waitpid(pid, NULL, 0);
+		exec_forked(cmd, env);
+	waitpid(pid, &stat_loc, 0);
+	if (WIFEXITED(stat_loc))
+		return (WEXITSTATUS(stat_loc));
+	else if (WIFSIGNALED(stat_loc))
+		return (128 + WSTOPSIG(stat_loc));
 	return (0);
 }
