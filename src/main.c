@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 15:08:46 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/23 17:16:36 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char const *argv[], char const *envp[])
 			if (!tklst->err)
 			{
 				cmd = init_cmd(tklst);
-				retval = exec(cmd, env);
+				retval = exec(tklst, cmd, env);
 				free_cmd(cmd);
 				retval_str = ft_itoa(retval);
 				set_env(env, "?", retval_str);

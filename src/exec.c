@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 16:40:16 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/23 20:09:53 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ void	exit_if_invalid_cmd(char *cmd_path)
 	}
 }
 
-void	exec_forked(t_cmd *cmd, t_env *env)
+void	exec_forked(t_token *tklst, t_cmd *cmd, t_env *env)
 {
 	char	*cmd_path;
 	char	**envp;
 
+	redir_open(tklst);
 	cmd_path = ft_which(env, cmd->argv[0]);
 	if (!cmd_path)
 		exit(127);
@@ -50,7 +51,7 @@ void	exec_forked(t_cmd *cmd, t_env *env)
 	exit(126);
 }
 
-int	exec(t_cmd *cmd, t_env *env)
+int	exec(t_token *tklst, t_cmd *cmd, t_env *env)
 {
 	pid_t	pid;
 	int		stat_loc;
@@ -61,7 +62,7 @@ int	exec(t_cmd *cmd, t_env *env)
 		return (retval);
 	pid = fork();
 	if (pid == 0)
-		exec_forked(cmd, env);
+		exec_forked(tklst, cmd, env);
 	waitpid(pid, &stat_loc, 0);
 	if (WIFEXITED(stat_loc))
 		return (WEXITSTATUS(stat_loc));

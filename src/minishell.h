@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 16:19:24 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/23 20:51:44 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@
 
 # define STX_ERR "minishell: syntax error near unexpected token `"
 # define STX_ERR_END "'\n"
+# define HD_ERR \
+	"bash: warning: here-document delimited by end-of-file (wanted `"
+# define HD_ERR_END "')\n"
 
 /* ***************** */
 /*     STRUCTURES    */
@@ -152,7 +155,13 @@ void	print_str_tab(char **strtab);
 
 /* exec.c */
 char	*ft_which(t_env *env, char *cmd);
-int		exec(t_cmd *cmd, t_env *env);
+int		exec(t_token *tklst, t_cmd *cmd, t_env *env);
+
+/* redir.c */
+void	redir_open(t_token *tklst);
+
+/* redir_utils.c */
+void	open_err(char *file);
 
 /* ***************** */
 /*     BUILTINS      */
