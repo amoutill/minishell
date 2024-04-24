@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:34:55 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 18:59:42 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:41:15 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ void	sigint_handler(int sig)
 
 void	sig_handler_incmd(int sig)
 {
-	(void)sig;
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	g_last_signal = sig;
 }

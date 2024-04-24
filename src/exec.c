@@ -6,11 +6,13 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 18:58:16 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 20:34:29 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_last_signal;
 
 void	exit_if_invalid_cmd(char *cmd_path)
 {
@@ -53,8 +55,9 @@ void	exec_forked(t_exec exec_data)
 	char	*cmd_path;
 	char	**envp;
 
-	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	redir_open(exec_data);
+	signal(SIGQUIT, SIG_DFL);
 	if (!exec_data.cmd->argv[0])
 	{
 		free_and_close_child(exec_data, -1, -1);
@@ -89,6 +92,11 @@ int	exec(t_exec exec_data)
 	if (pid == 0)
 		exec_forked(exec_data);
 	waitpid(pid, &stat_loc, 0);
+	if (g_last_signal)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		g_last_signal = 0;
+	}
 	if (WIFEXITED(stat_loc))
 		return (WEXITSTATUS(stat_loc));
 	else if (WIFSIGNALED(stat_loc))
