@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 20:09:53 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:26:38 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ void	exec_forked(t_token *tklst, t_cmd *cmd, t_env *env)
 	char	**envp;
 
 	redir_open(tklst);
+	if (!cmd->argv[0])
+	{
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		exit(0);
+	}
 	cmd_path = ft_which(env, cmd->argv[0]);
 	if (!cmd_path)
 		exit(127);
@@ -48,6 +54,8 @@ void	exec_forked(t_token *tklst, t_cmd *cmd, t_env *env)
 	perror(cmd_path);
 	free(cmd_path);
 	free_str_tab(envp);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	exit(126);
 }
 

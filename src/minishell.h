@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 20:51:44 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:14:09 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,10 @@ void	redir_open(t_token *tklst);
 
 /* redir_utils.c */
 void	open_err(char *file);
+void	replace_fds(int in_fd, int out_fd);
+void	here_doc_eof_err(char *eof);
+void	dup_and_close(int fd, int *fd2);
+char	*readline_here_doc(char *eof);
 
 /* ***************** */
 /*     BUILTINS      */

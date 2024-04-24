@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 16:19:42 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:19:17 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	exec_cmd(t_cmd *cmd, t_env *env)
 {
+	if (!cmd->argv || !cmd->argv[0])
+		return (-1);
 	if (ft_strncmp(cmd->argv[0], "echo", -1) == 0)
 		return (echo_cmd(cmd->argv));
 	if (ft_strncmp(cmd->argv[0], "cd", -1) == 0)
