@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 17:16:36 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:10:46 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,36 @@ int	main(int argc, char const *argv[], char const *envp[])
 	char	*cmdline;
 	int		retval;
 	char	*retval_str;
-	t_token	*tklst;
-	t_cmd	*cmd;
-	t_env	*env;
+	t_exec	exec_data;
 
 	(void)argv;
 	(void)argc;
-	env = init_env(envp);
-	set_env(env, "?", "0");
+	exec_data.env = init_env(envp);
+	set_env(exec_data.env, "?", "0");
 	while (1)
 	{
 		cmdline = readline("\e[1;36mminishell $\e[0m ");
 		if (!cmdline)
 			break ;
 		add_history(cmdline);
-		tklst = magic_tokenizer(env, cmdline);
+		exec_data.tklst = magic_tokenizer(exec_data.env, cmdline);
 		free(cmdline);
 		//print_tktlst(tklst);
 		//print_str_tab(init_envp(env));
-		if (tklst)
+		if (exec_data.tklst)
 		{
-			if (!tklst->err)
+			if (!exec_data.tklst->err)
 			{
-				cmd = init_cmd(tklst);
-				retval = exec(tklst, cmd, env);
-				free_cmd(cmd);
+				exec_data.cmd = init_cmd(exec_data.tklst);
+				retval = exec(exec_data);
+				free_cmd(exec_data.cmd);
 				retval_str = ft_itoa(retval);
-				set_env(env, "?", retval_str);
+				set_env(exec_data.env, "?", retval_str);
 				free(retval_str);
 			}
-			free_tklst(tklst);
+			free_tklst(exec_data.tklst);
 		}
 	}
-	free_env(env);
+	free_env(exec_data.env);
 	rl_clear_history();
 }

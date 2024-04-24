@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 15:14:09 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 16:24:53 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ typedef struct s_cmd
 	char	**argv;
 }				t_cmd;
 
+typedef struct s_exec
+{
+	t_token	*tklst;
+	t_cmd	*cmd;
+	t_env	*env;
+}				t_exec;
+
 /* ***************** */
 /*      PARSING      */
 /* ***************** */
@@ -154,11 +161,14 @@ void	free_cmd(t_cmd *cmd);
 void	print_str_tab(char **strtab);
 
 /* exec.c */
+void	free_and_close_child(t_exec exec_data, int in_fd, int out_fd);
+int		exec(t_exec exec_data);
+
+/* ft_which.c */
 char	*ft_which(t_env *env, char *cmd);
-int		exec(t_token *tklst, t_cmd *cmd, t_env *env);
 
 /* redir.c */
-void	redir_open(t_token *tklst);
+void	redir_open(t_exec exec_data);
 
 /* redir_utils.c */
 void	open_err(char *file);
