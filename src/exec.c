@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 16:32:06 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 18:58:16 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	exec_forked(t_exec exec_data)
 	char	*cmd_path;
 	char	**envp;
 
+	signal(SIGQUIT, SIG_DFL);
 	redir_open(exec_data);
 	if (!exec_data.cmd->argv[0])
 	{
@@ -91,6 +92,6 @@ int	exec(t_exec exec_data)
 	if (WIFEXITED(stat_loc))
 		return (WEXITSTATUS(stat_loc));
 	else if (WIFSIGNALED(stat_loc))
-		return (128 + WSTOPSIG(stat_loc));
+		return (128 + WTERMSIG(stat_loc));
 	return (0);
 }

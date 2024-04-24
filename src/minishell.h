@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 16:24:53 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 18:59:51 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <signal.h>
 # include "../libft/libft.h"
 
 /* ***************** */
@@ -176,6 +177,10 @@ void	replace_fds(int in_fd, int out_fd);
 void	here_doc_eof_err(char *eof);
 void	dup_and_close(int fd, int *fd2);
 char	*readline_here_doc(char *eof);
+
+/* signals.c */
+void	sigint_handler(int sig);
+void	sig_handler_incmd(int sig);
 
 /* ***************** */
 /*     BUILTINS      */

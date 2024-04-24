@@ -6,12 +6,14 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 16:10:46 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 19:03:06 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdlib.h>
+
+extern int	g_last_signal;
 
 int	main(int argc, char const *argv[], char const *envp[])
 {
@@ -22,14 +24,25 @@ int	main(int argc, char const *argv[], char const *envp[])
 
 	(void)argv;
 	(void)argc;
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 	exec_data.env = init_env(envp);
 	set_env(exec_data.env, "?", "0");
 	while (1)
 	{
 		cmdline = readline("\e[1;36mminishell $\e[0m ");
+		if (g_last_signal)
+		{
+			set_env(exec_data.env, "?", "130");
+			g_last_signal = 0;
+		}
 		if (!cmdline)
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
 			break ;
-		add_history(cmdline);
+		}
+		if (cmdline[0])
+			add_history(cmdline);
 		exec_data.tklst = magic_tokenizer(exec_data.env, cmdline);
 		free(cmdline);
 		//print_tktlst(tklst);
@@ -39,7 +52,11 @@ int	main(int argc, char const *argv[], char const *envp[])
 			if (!exec_data.tklst->err)
 			{
 				exec_data.cmd = init_cmd(exec_data.tklst);
+				signal(SIGINT, sig_handler_incmd);
+				signal(SIGQUIT, sig_handler_incmd);
 				retval = exec(exec_data);
+				signal(SIGINT, sigint_handler);
+				signal(SIGQUIT, SIG_IGN);
 				free_cmd(exec_data.cmd);
 				retval_str = ft_itoa(retval);
 				set_env(exec_data.env, "?", retval_str);
