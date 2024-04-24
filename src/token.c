@@ -6,11 +6,10 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:13:24 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/18 18:03:07 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/24 15:34:28 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <ctype.h>
 #include "minishell.h"
 
 size_t	tklst_len(t_token *tklst)
