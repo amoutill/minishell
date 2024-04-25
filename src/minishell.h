@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 18:42:32 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:55:07 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_cmd
 typedef struct s_exec
 {
 	t_token	*tklst;
+	t_token	*current_tk;
 	t_cmd	*cmd;
 	t_env	*env;
 }				t_exec;

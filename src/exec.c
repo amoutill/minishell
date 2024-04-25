@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 18:41:41 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 19:05:17 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int	exec(t_exec exec_data)
 			close(exec_data.cmd->out_fd);
 		exec_data.cmd = exec_data.cmd->next;
 		i++;
+		exec_data.current_tk = exec_data.current_tk->next;
 	}
 	i = 0;
 	while (i < nb_cmd)
