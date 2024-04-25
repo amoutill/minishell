@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 17:36:41 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:42:01 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ char	**init_envp(t_env *env);
 void	free_str_tab(char **strtab);
 void	free_cmd(t_cmd *cmd);
 void	print_str_tab(char **strtab);
+size_t	count_cmd(t_cmd *cmd);
 
 /* exec.c */
 void	free_and_close_child(t_exec exec_data, int in_fd, int out_fd);

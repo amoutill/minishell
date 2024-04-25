@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:09:02 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/22 17:37:57 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:41:48 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,17 @@ void	print_str_tab(char **strtab)
 		printf("envp : %s\n", strtab[i]);
 		i++;
 	}
+}
+
+size_t	count_cmd(t_cmd *cmd)
+{
+	size_t	n;
+
+	n = 0;
+	while (cmd)
+	{
+		++n;
+		cmd = cmd->next;
+	}
+	return (n);
 }

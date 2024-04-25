@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 20:34:29 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:02:13 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,32 @@ void	exec_forked(t_exec exec_data)
 
 int	exec(t_exec exec_data)
 {
-	pid_t	pid;
+	pid_t	*pid;
 	int		stat_loc;
-	int		retval;
+	//int	retval;
+	size_t	nb_cmd;
+	size_t	i;
 
-	retval = exec_cmd(exec_data.cmd, exec_data.env);
-	if (retval != -1)
-		return (retval);
-	pid = fork();
-	if (pid == 0)
-		exec_forked(exec_data);
-	waitpid(pid, &stat_loc, 0);
+	//retval = exec_cmd(exec_data.cmd, exec_data.env);
+	//if (retval != -1)
+	//	return (retval);
+	nb_cmd = count_cmd(exec_data.cmd);
+	pid = malloc(sizeof(pid_t) * nb_cmd);
+	i = 0;
+	while (i < nb_cmd)
+	{
+		pid[i] = fork();
+		if (pid[i] == 0)
+			exec_forked(exec_data);
+		exec_data.cmd = exec_data.cmd->next;
+		i++;
+	}
+	i = 0;
+	while (i < nb_cmd)
+	{
+		waitpid(pid[i], &stat_loc, 0);
+		++i;
+	}
 	if (g_last_signal)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
