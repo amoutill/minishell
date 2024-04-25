@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 18:02:13 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:41:41 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exit_if_invalid_cmd(char *cmd_path)
 	}
 }
 
-void	free_and_close_child(t_exec exec_data, int in_fd, int out_fd)
+void	free_and_close_child(t_exec exec_data)
 {
 	free_env(exec_data.env);
 	free_cmd(exec_data.cmd);
@@ -44,10 +44,10 @@ void	free_and_close_child(t_exec exec_data, int in_fd, int out_fd)
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
-	if (in_fd != -1)
-		close(in_fd);
-	if (out_fd != -1)
-		close(out_fd);
+	if (exec_data.cmd->in_fd != -1)
+		close(exec_data.cmd->in_fd);
+	if (exec_data.cmd->out_fd != -1)
+		close(exec_data.cmd->out_fd);
 }
 
 void	exec_forked(t_exec exec_data)
@@ -60,13 +60,13 @@ void	exec_forked(t_exec exec_data)
 	signal(SIGQUIT, SIG_DFL);
 	if (!exec_data.cmd->argv[0])
 	{
-		free_and_close_child(exec_data, -1, -1);
+		free_and_close_child(exec_data);
 		exit(0);
 	}
 	cmd_path = ft_which(exec_data.env, exec_data.cmd->argv[0]);
 	if (!cmd_path)
 	{
-		free_and_close_child(exec_data, -1, -1);
+		free_and_close_child(exec_data);
 		exit(127);
 	}
 	exit_if_invalid_cmd(cmd_path);
@@ -75,7 +75,7 @@ void	exec_forked(t_exec exec_data)
 	perror(cmd_path);
 	free(cmd_path);
 	free_str_tab(envp);
-	free_and_close_child(exec_data, -1, -1);
+	free_and_close_child(exec_data);
 	exit(126);
 }
 
@@ -86,6 +86,7 @@ int	exec(t_exec exec_data)
 	//int	retval;
 	size_t	nb_cmd;
 	size_t	i;
+	int		pipe_fd[2];
 
 	//retval = exec_cmd(exec_data.cmd, exec_data.env);
 	//if (retval != -1)
@@ -95,9 +96,22 @@ int	exec(t_exec exec_data)
 	i = 0;
 	while (i < nb_cmd)
 	{
+		if (i)
+			exec_data.cmd->in_fd = pipe_fd[0];
+		if (i < nb_cmd - 1)
+		{
+			pipe(pipe_fd);
+			exec_data.cmd->out_fd = pipe_fd[1];
+		}
 		pid[i] = fork();
 		if (pid[i] == 0)
+		{
 			exec_forked(exec_data);
+		}
+		if (exec_data.cmd->in_fd != -1)
+			close(exec_data.cmd->in_fd);
+		if (exec_data.cmd->out_fd != -1)
+			close(exec_data.cmd->out_fd);
 		exec_data.cmd = exec_data.cmd->next;
 		i++;
 	}

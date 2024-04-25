@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:50:08 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 17:36:06 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:18:30 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_cmd	*init_cmd(t_token *tklst)
 	cmd = malloc(sizeof(t_cmd));
 	cmd->argv = malloc(sizeof(char *) * (i + 1));
 	cmd->argc = i;
+	cmd->in_fd = -1;
+	cmd->out_fd = -1;
 	while (tklst != NULL && tklst->type != pope)
 	{
 		if (tklst->type == word)

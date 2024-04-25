@@ -6,14 +6,13 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/24 16:30:45 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:43:30 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	in_redir_open(t_exec exec_data, t_token *current_tk, int *in_fd,
-			int *out_fd)
+void	in_redir_open(t_exec exec_data, t_token *current_tk)
 {
 	int	fd;
 
@@ -21,15 +20,14 @@ void	in_redir_open(t_exec exec_data, t_token *current_tk, int *in_fd,
 	if (fd == -1)
 	{
 		open_err(current_tk->str);
-		free_and_close_child(exec_data, *in_fd, *out_fd);
+		free_and_close_child(exec_data);
 		exit(1);
 	}
 	else
-		dup_and_close(fd, in_fd);
+		dup_and_close(fd, &exec_data.cmd->in_fd);
 }
 
-void	out_redir_open(t_exec exec_data, t_token *current_tk, int *in_fd,
-			int *out_fd)
+void	out_redir_open(t_exec exec_data, t_token *current_tk)
 {
 	int	fd;
 
@@ -37,15 +35,14 @@ void	out_redir_open(t_exec exec_data, t_token *current_tk, int *in_fd,
 	if (fd == -1)
 	{
 		open_err(current_tk->str);
-		free_and_close_child(exec_data, *in_fd, *out_fd);
+		free_and_close_child(exec_data);
 		exit(1);
 	}
 	else
-		dup_and_close(fd, out_fd);
+		dup_and_close(fd, &exec_data.cmd->out_fd);
 }
 
-void	out_append_open(t_exec exec_data, t_token *current_tk, int *in_fd,
-			int *out_fd)
+void	out_append_open(t_exec exec_data, t_token *current_tk)
 {
 	int	fd;
 
@@ -53,14 +50,14 @@ void	out_append_open(t_exec exec_data, t_token *current_tk, int *in_fd,
 	if (fd == -1)
 	{
 		open_err(current_tk->str);
-		free_and_close_child(exec_data, *in_fd, *out_fd);
+		free_and_close_child(exec_data);
 		exit(1);
 	}
 	else
-		dup_and_close(fd, out_fd);
+		dup_and_close(fd, &exec_data.cmd->out_fd);
 }
 
-void	in_here_doc_open(t_token *current_tk, int *in_fd)
+void	in_here_doc_open(t_exec exec_data, t_token *current_tk)
 {
 	int		pipe_fd[2];
 	char	*buff;
@@ -70,29 +67,25 @@ void	in_here_doc_open(t_token *current_tk, int *in_fd)
 	ft_putstr_fd(buff, pipe_fd[1]);
 	free(buff);
 	close(pipe_fd[1]);
-	dup_and_close(pipe_fd[0], in_fd);
+	dup_and_close(pipe_fd[0], &exec_data.cmd->in_fd);
 }
 
 void	redir_open(t_exec exec_data)
 {
 	t_token	*current_tk;
-	int		in_fd;
-	int		out_fd;
 
 	current_tk = exec_data.tklst;
-	in_fd = -1;
-	out_fd = -1;
 	while (current_tk)
 	{
 		if (current_tk->type == in_redir)
-			in_redir_open(exec_data, current_tk, &in_fd, &out_fd);
+			in_redir_open(exec_data, current_tk);
 		else if (current_tk->type == out_redir)
-			out_redir_open(exec_data, current_tk, &in_fd, &out_fd);
+			out_redir_open(exec_data, current_tk);
 		else if (current_tk->type == out_append)
-			out_append_open(exec_data, current_tk, &in_fd, &out_fd);
+			out_append_open(exec_data, current_tk);
 		else if (current_tk->type == in_here_doc)
-			in_here_doc_open(current_tk, &in_fd);
+			in_here_doc_open(exec_data, current_tk);
 		current_tk = current_tk->next;
 	}
-	replace_fds(in_fd, out_fd);
+	replace_fds(exec_data.cmd->in_fd, exec_data.cmd->out_fd);
 }

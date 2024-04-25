@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 17:42:01 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:42:32 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct s_cmd
 {
 	int		argc;
 	char	**argv;
+	int		in_fd;
+	int		out_fd;
 	t_cmd	*next;
 }				t_cmd;
 
@@ -166,7 +168,7 @@ void	print_str_tab(char **strtab);
 size_t	count_cmd(t_cmd *cmd);
 
 /* exec.c */
-void	free_and_close_child(t_exec exec_data, int in_fd, int out_fd);
+void	free_and_close_child(t_exec exec_data);
 int		exec(t_exec exec_data);
 
 /* ft_which.c */
