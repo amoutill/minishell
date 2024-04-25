@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 18:59:51 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:36:41 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ typedef struct s_env
 	t_env	*next;
 }				t_env;
 
+typedef struct s_cmd	t_cmd;
+
 typedef struct s_cmd
 {
 	int		argc;
 	char	**argv;
+	t_cmd	*next;
 }				t_cmd;
 
 typedef struct s_exec

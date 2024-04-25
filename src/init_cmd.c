@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:50:08 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 15:06:39 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/25 17:36:06 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ t_cmd	*init_cmd(t_token *tklst)
 		tklst = tklst->next;
 	}
 	cmd->argv[j] = NULL;
+	if (tklst && tklst->type == pope)
+		cmd->next = init_cmd(tklst->next);
+	else
+		cmd->next = NULL;
 	return (cmd);
 }
 
