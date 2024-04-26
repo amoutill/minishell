@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 19:09:02 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 17:41:48 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:19:59 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	free_str_tab(char **strtab)
 
 void	free_cmd(t_cmd *cmd)
 {
+	if (cmd->next)
+		free_cmd(cmd->next);
 	free_str_tab(cmd->argv);
 	free(cmd);
 }
