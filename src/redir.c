@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/26 16:43:01 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 17:02:53 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	in_here_doc_open(t_exec exec_data)
 
 void	redir_open(t_exec exec_data)
 {
+	if (exec_data.current_cmd->fd_to_close != -1)
+		close(exec_data.current_cmd->fd_to_close);
 	while (exec_data.current_tk && exec_data.current_tk->type != pope)
 	{
 		if (exec_data.current_tk->type == in_redir)

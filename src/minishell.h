@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/26 15:31:23 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:57:25 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,8 +171,11 @@ void	print_str_tab(char **strtab);
 size_t	count_cmd(t_cmd *cmd);
 
 /* exec.c */
-void	free_and_close_child(t_exec exec_data);
 int		exec(t_exec exec_data);
+
+/* exec_utils.c */
+void	free_and_close_child(t_exec exec_data);
+void	exit_if_invalid_cmd(char *cmd_path);
 
 /* ft_which.c */
 char	*ft_which(t_env *env, char *cmd);
