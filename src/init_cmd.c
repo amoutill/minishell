@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:50:08 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 18:18:30 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:31:53 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_cmd	*init_cmd(t_token *tklst)
 	cmd->argc = i;
 	cmd->in_fd = -1;
 	cmd->out_fd = -1;
+	cmd->fd_to_close = -1;
 	while (tklst != NULL && tklst->type != pope)
 	{
 		if (tklst->type == word)

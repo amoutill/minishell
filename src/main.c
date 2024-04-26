@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 19:02:52 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:23:39 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int argc, char const *argv[], char const *envp[])
 			if (!exec_data.tklst->err)
 			{
 				exec_data.cmd = init_cmd(exec_data.tklst);
+				exec_data.current_cmd = exec_data.cmd;
 				signal(SIGINT, sig_handler_incmd);
 				signal(SIGQUIT, sig_handler_incmd);
 				retval = exec(exec_data);

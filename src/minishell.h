@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 18:55:07 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:31:23 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_cmd
 	char	**argv;
 	int		in_fd;
 	int		out_fd;
+	int		fd_to_close;
 	t_cmd	*next;
 }				t_cmd;
 
@@ -104,6 +105,7 @@ typedef struct s_exec
 	t_token	*tklst;
 	t_token	*current_tk;
 	t_cmd	*cmd;
+	t_cmd	*current_cmd;
 	t_env	*env;
 }				t_exec;
 

@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/25 19:05:17 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:43:44 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void	exit_if_invalid_cmd(char *cmd_path)
 
 void	free_and_close_child(t_exec exec_data)
 {
+	if (exec_data.current_cmd->in_fd != -1)
+		close(exec_data.current_cmd->in_fd);
+	if (exec_data.current_cmd->out_fd != -1)
+		close(exec_data.current_cmd->out_fd);
 	free_env(exec_data.env);
 	free_cmd(exec_data.cmd);
 	free_tklst(exec_data.tklst);
@@ -44,10 +48,6 @@ void	free_and_close_child(t_exec exec_data)
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
-	if (exec_data.cmd->in_fd != -1)
-		close(exec_data.cmd->in_fd);
-	if (exec_data.cmd->out_fd != -1)
-		close(exec_data.cmd->out_fd);
 }
 
 void	exec_forked(t_exec exec_data)
@@ -56,14 +56,16 @@ void	exec_forked(t_exec exec_data)
 	char	**envp;
 
 	signal(SIGINT, SIG_DFL);
+	if (exec_data.current_cmd->fd_to_close != -1)
+		close(exec_data.current_cmd->fd_to_close);
 	redir_open(exec_data);
 	signal(SIGQUIT, SIG_DFL);
-	if (!exec_data.cmd->argv[0])
+	if (!exec_data.current_cmd->argv[0])
 	{
 		free_and_close_child(exec_data);
 		exit(0);
 	}
-	cmd_path = ft_which(exec_data.env, exec_data.cmd->argv[0]);
+	cmd_path = ft_which(exec_data.env, exec_data.current_cmd->argv[0]);
 	if (!cmd_path)
 	{
 		free_and_close_child(exec_data);
@@ -71,7 +73,7 @@ void	exec_forked(t_exec exec_data)
 	}
 	exit_if_invalid_cmd(cmd_path);
 	envp = init_envp(exec_data.env);
-	execve(cmd_path, exec_data.cmd->argv, envp);
+	execve(cmd_path, exec_data.current_cmd->argv, envp);
 	perror(cmd_path);
 	free(cmd_path);
 	free_str_tab(envp);
@@ -83,10 +85,10 @@ int	exec(t_exec exec_data)
 {
 	pid_t	*pid;
 	int		stat_loc;
-	//int	retval;
 	size_t	nb_cmd;
 	size_t	i;
 	int		pipe_fd[2];
+	int		retval;
 
 	//retval = exec_cmd(exec_data.cmd, exec_data.env);
 	//if (retval != -1)
@@ -97,22 +99,24 @@ int	exec(t_exec exec_data)
 	while (i < nb_cmd)
 	{
 		if (i)
-			exec_data.cmd->in_fd = pipe_fd[0];
+			exec_data.current_cmd->in_fd = pipe_fd[0];
 		if (i < nb_cmd - 1)
 		{
 			pipe(pipe_fd);
-			exec_data.cmd->out_fd = pipe_fd[1];
+			exec_data.current_cmd->out_fd = pipe_fd[1];
+			exec_data.current_cmd->fd_to_close = pipe_fd[0];
 		}
 		pid[i] = fork();
 		if (pid[i] == 0)
 		{
+			free(pid);
 			exec_forked(exec_data);
 		}
-		if (exec_data.cmd->in_fd != -1)
-			close(exec_data.cmd->in_fd);
-		if (exec_data.cmd->out_fd != -1)
-			close(exec_data.cmd->out_fd);
-		exec_data.cmd = exec_data.cmd->next;
+		if (exec_data.current_cmd->in_fd != -1)
+			close(exec_data.current_cmd->in_fd);
+		if (exec_data.current_cmd->out_fd != -1)
+			close(exec_data.current_cmd->out_fd);
+		exec_data.current_cmd = exec_data.current_cmd->next;
 		i++;
 		exec_data.current_tk = exec_data.current_tk->next;
 	}
@@ -122,6 +126,7 @@ int	exec(t_exec exec_data)
 		waitpid(pid[i], &stat_loc, 0);
 		++i;
 	}
+	free(pid);
 	if (g_last_signal)
 	{
 		ft_putstr_fd("\n", STDOUT_FILENO);
