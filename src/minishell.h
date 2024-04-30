@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/26 16:57:25 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/30 20:11:57 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,12 @@ int		exec(t_exec exec_data);
 /* exec_utils.c */
 void	free_and_close_child(t_exec exec_data);
 void	exit_if_invalid_cmd(char *cmd_path);
+int		wait_cmd(pid_t *pid, size_t nb_cmd);
+void	close_fds(int in_fd, int out_fd);
+void	advance_to_next_pipe_tk(t_exec *exec_data);
+
+/* exec_utils2.c */
+void	setup_pipes(t_exec *exec_data, int pipe_fd[2], size_t nb_cmd, size_t i);
 
 /* ft_which.c */
 char	*ft_which(t_env *env, char *cmd);

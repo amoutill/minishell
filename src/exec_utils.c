@@ -6,11 +6,13 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/26 16:55:49 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/30 20:14:23 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+extern int	g_last_signal;
 
 void	exit_if_invalid_cmd(char *cmd_path)
 {
@@ -46,4 +48,43 @@ void	free_and_close_child(t_exec exec_data)
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
+}
+
+int	wait_cmd(pid_t *pid, size_t nb_cmd)
+{
+	int		stat_loc;
+	size_t	i;
+
+	i = 0;
+	while (i < nb_cmd)
+	{
+		waitpid(pid[i], &stat_loc, 0);
+		++i;
+	}
+	if (g_last_signal)
+	{
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		g_last_signal = 0;
+	}
+	if (WIFEXITED(stat_loc))
+		return (WEXITSTATUS(stat_loc));
+	else if (WIFSIGNALED(stat_loc))
+		return (128 + WTERMSIG(stat_loc));
+	return (0);
+}
+
+void	close_fds(int in_fd, int out_fd)
+{
+	if (in_fd != -1)
+		close(in_fd);
+	if (out_fd != -1)
+		close(out_fd);
+}
+
+void	advance_to_next_pipe_tk(t_exec *exec_data)
+{
+	while (exec_data->current_tk && exec_data->current_tk->type != pope)
+		exec_data->current_tk = exec_data->current_tk->next;
+	if (exec_data->current_tk && exec_data->current_tk->type == pope)
+		exec_data->current_tk = exec_data->current_tk->next;
 }
