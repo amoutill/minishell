@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/30 20:16:24 by blebas           ###   ########.fr       */
+/*   Updated: 2024/04/30 21:11:59 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ void	exec_forked(t_exec exec_data)
 	char	**envp;
 
 	signal(SIGINT, SIG_DFL);
-	redir_open(exec_data);
 	signal(SIGQUIT, SIG_DFL);
+	if (exec_data.current_cmd->fd_to_close != -1)
+		close(exec_data.current_cmd->fd_to_close);
+	replace_fds(exec_data.current_cmd->in_fd, exec_data.current_cmd->out_fd);
 	if (!exec_data.current_cmd->argv[0])
 	{
 		free_and_close_child(exec_data);
@@ -55,6 +57,7 @@ int	exec(t_exec exec_data)
 	while (i < nb_cmd)
 	{
 		setup_pipes(&exec_data, pipe_fd, nb_cmd, i);
+		redir_open(exec_data);
 		pid[i] = fork();
 		if (pid[i++] == 0)
 		{
