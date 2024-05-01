@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/30 21:11:59 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:24:46 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,22 @@ int	exec(t_exec exec_data)
 	{
 		setup_pipes(&exec_data, pipe_fd, nb_cmd, i);
 		redir_open(exec_data);
-		pid[i] = fork();
-		if (pid[i++] == 0)
+		if (nb_cmd == 1 && is_builtin(exec_data.current_cmd->argv[0]))
 		{
 			free(pid);
-			exec_forked(exec_data);
+			return (builtins_tortilla(exec_data));
 		}
-		close_fds(exec_data.current_cmd->in_fd, exec_data.current_cmd->out_fd);
+		else
+		{
+			pid[i] = fork();
+			if (pid[i] == 0)
+			{
+				free(pid);
+				exec_forked(exec_data);
+			}
+			close_fds(exec_data.current_cmd->in_fd, exec_data.current_cmd->out_fd);
+		}
+		i++;
 		exec_data.current_cmd = exec_data.current_cmd->next;
 		advance_to_next_pipe_tk(&exec_data);
 	}

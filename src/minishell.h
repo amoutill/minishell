@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/30 20:11:57 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:16:05 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,5 +216,9 @@ int		env_cmd(t_env *env);
 
 /* exec_builtins.c */
 int		exec_cmd(t_cmd *cmd, t_env *env);
+int		is_builtin(char *cmd);
+
+/* wrapper.c */
+int		builtins_tortilla(t_exec exec_data);
 
 #endif

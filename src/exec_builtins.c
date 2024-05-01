@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/24 15:19:17 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:14:49 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,17 @@ int	exec_cmd(t_cmd *cmd, t_env *env)
 	if (ft_strncmp(cmd->argv[0], "env", -1) == 0)
 		return (env_cmd(env));
 	return (-1);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", -1) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "cd", -1) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "pwd", -1) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "env", -1) == 0)
+		return (1);
+	return (0);
 }
