@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 16:24:46 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:02:02 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	exec_forked(t_exec exec_data)
 {
 	char	*cmd_path;
 	char	**envp;
+	int		retval;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -27,18 +28,27 @@ void	exec_forked(t_exec exec_data)
 		free_and_close_child(exec_data);
 		exit(0);
 	}
-	cmd_path = ft_which(exec_data.env, exec_data.current_cmd->argv[0]);
-	if (!cmd_path)
+	if (is_builtin(exec_data.current_cmd->argv[0]))
 	{
+		retval = exec_cmd(exec_data.current_cmd, exec_data.env);
 		free_and_close_child(exec_data);
-		exit(127);
+		exit(retval);
 	}
-	exit_if_invalid_cmd(cmd_path);
-	envp = init_envp(exec_data.env);
-	execve(cmd_path, exec_data.current_cmd->argv, envp);
-	perror(cmd_path);
-	free(cmd_path);
-	free_str_tab(envp);
+	else
+	{
+		cmd_path = ft_which(exec_data.env, exec_data.current_cmd->argv[0]);
+		if (!cmd_path)
+		{
+			free_and_close_child(exec_data);
+			exit(127);
+		}
+		exit_if_invalid_cmd(cmd_path);
+		envp = init_envp(exec_data.env);
+		execve(cmd_path, exec_data.current_cmd->argv, envp);
+		perror(cmd_path);
+		free(cmd_path);
+		free_str_tab(envp);
+	}
 	free_and_close_child(exec_data);
 	exit(126);
 }

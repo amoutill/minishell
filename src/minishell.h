@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 16:16:05 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:08:58 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ void	sig_handler_incmd(int sig);
 int		echo_cmd(char **argv);
 
 /* cd.c */
-int		cd_cmd(char **argv);
+int		cd_cmd(char **argv, t_env *env);
 int		pwd_cmd(void);
 
 /* env_cmd */
