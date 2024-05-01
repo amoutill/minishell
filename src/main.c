@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/26 15:23:39 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 14:09:32 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	main(int argc, char const *argv[], char const *envp[])
 				set_env(exec_data.env, "?", retval_str);
 				free(retval_str);
 			}
+			else
+				set_env(exec_data.env, "?", "2");
 			free_tklst(exec_data.tklst);
 		}
 	}
