@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 20:13:29 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:08:20 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,8 +223,11 @@ int		export_cmd(t_env *env, char **argv);
 /* unset.c */
 int		unset_cmd(char **argv, t_env *env);
 
+/* exit.c */
+void	exit_cmd(t_exec *exec_data, int stdin_bkp, int stdout_bkp);
+
 /* exec_builtins.c */
-int		exec_cmd(t_cmd *cmd, t_env *env);
+int		exec_cmd(t_exec exec_data, int stdin_bkp, int stdout_bkp);
 int		is_builtin(char *cmd);
 
 /* wrapper.c */

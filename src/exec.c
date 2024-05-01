@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 17:02:02 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:12:46 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	exec_forked(t_exec exec_data)
 	}
 	if (is_builtin(exec_data.current_cmd->argv[0]))
 	{
-		retval = exec_cmd(exec_data.current_cmd, exec_data.env);
+		retval = exec_cmd(exec_data, -1, -1);
 		free_and_close_child(exec_data);
 		exit(retval);
 	}
@@ -81,7 +81,8 @@ int	exec(t_exec exec_data)
 				free(pid);
 				exec_forked(exec_data);
 			}
-			close_fds(exec_data.current_cmd->in_fd, exec_data.current_cmd->out_fd);
+			close_fds(exec_data.current_cmd->in_fd,
+				exec_data.current_cmd->out_fd);
 		}
 		i++;
 		exec_data.current_cmd = exec_data.current_cmd->next;

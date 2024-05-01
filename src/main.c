@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 16:36:29 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:14:39 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	main(int argc, char const *argv[], char const *envp[])
 		exec_data.tklst = magic_tokenizer(exec_data.env, cmdline);
 		exec_data.current_tk = exec_data.tklst;
 		free(cmdline);
-		//print_tktlst(tklst);
-		//print_str_tab(init_envp(env));
 		if (exec_data.tklst)
 		{
 			if (!exec_data.tklst->err)

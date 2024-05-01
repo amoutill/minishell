@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 19:40:19 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 19:51:53 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:12:27 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,3 @@ void	del_env(t_env *env, char *key)
 	prev->next = env->next;
 	free(env);
 }
-
