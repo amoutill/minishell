@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 18:34:19 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 20:13:29 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ t_env	*init_env(const char *envp[]);
 char	*get_env(t_env *env, char *key);
 void	free_env(t_env *env);
 
+/* env2.c */
+void	del_env(t_env *env, char *key);
+
 /* parse_env.c */
 void	parse_envar(t_env *env, t_token **tklst, char **cmdline);
 //void	free_last_tk(t_token **tklst);
@@ -216,6 +219,9 @@ int		env_cmd(t_env *env);
 
 /* export.c */
 int		export_cmd(t_env *env, char **argv);
+
+/* unset.c */
+int		unset_cmd(char **argv, t_env *env);
 
 /* exec_builtins.c */
 int		exec_cmd(t_cmd *cmd, t_env *env);

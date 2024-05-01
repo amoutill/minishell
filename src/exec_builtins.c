@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 18:36:05 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 20:15:00 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	exec_cmd(t_cmd *cmd, t_env *env)
 		return (env_cmd(env));
 	if (ft_strncmp(cmd->argv[0], "export", -1) == 0)
 		return (export_cmd(env, cmd->argv));
+	if (ft_strncmp(cmd->argv[0], "unset", -1) == 0)
+		return (unset_cmd(cmd->argv, env));
 	return (-1);
 }
 
@@ -40,6 +42,8 @@ int	is_builtin(char *cmd)
 	if (ft_strncmp(cmd, "env", -1) == 0)
 		return (1);
 	if (ft_strncmp(cmd, "export", -1) == 0)
+		return (1);
+	if (ft_strncmp(cmd, "unset", -1) == 0)
 		return (1);
 	return (0);
 }
