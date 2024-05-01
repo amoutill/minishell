@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:16:58 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/23 16:19:00 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 20:19:44 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	env_cmd(t_env *env)
 {
 	while (env != NULL)
 	{
-		if (env->key[0] != '?')
+		if (env->key[0] != '?' && env->value)
 		{
 			ft_putstr_fd(env->key, STDOUT_FILENO);
 			ft_putchar_fd('=', STDOUT_FILENO);
