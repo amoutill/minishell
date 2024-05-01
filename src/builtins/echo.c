@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:55:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/10 18:49:58 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 15:40:26 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 int	echo_cmd(char **argv)
 {
-	int	i;
-	int	n;
+	size_t	i;
+	int		nl;
 
 	i = 1;
-	n = 0;
-	if (argv[i] && !ft_strncmp(argv[i], "-n", -1))
+	if (!ft_strncmp(argv[i], "-n", -1))
 	{
-		n = 1;
-		i++;
+		nl = 0;
+		++i;
 	}
+	else
+		nl = 1;
 	while (argv[i])
 	{
 		ft_putstr_fd(argv[i], STDOUT_FILENO);
@@ -31,7 +32,7 @@ int	echo_cmd(char **argv)
 		if (argv[i])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
-	if (n == 0)
+	if (nl == 1)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (0);
 }
