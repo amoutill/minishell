@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:38:15 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 14:09:32 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:36:29 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	main(int argc, char const *argv[], char const *envp[])
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
 	exec_data.env = init_env(envp);
-	set_env(exec_data.env, "?", "0");
 	while (1)
 	{
 		cmdline = readline("\e[1;36mminishell $\e[0m ");
