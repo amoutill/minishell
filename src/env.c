@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:10:10 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/17 18:52:11 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 16:39:14 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_env	*init_env(const char *envp[])
 	char	*key;
 	char	*value;
 
-	env = NULL;
+	env = new_env("?", "0");
 	while (*envp)
 	{
 		i = 0;
@@ -61,10 +61,7 @@ t_env	*init_env(const char *envp[])
 		ft_strlcpy(key, *envp, i + 1);
 		value = malloc(sizeof(char) * (ft_strlen(*envp) - i));
 		ft_strlcpy(value, *envp + i + 1, ft_strlen(*envp) - i);
-		if (!env)
-			env = new_env(key, value);
-		else
-			set_env(env, key, value);
+		set_env(env, key, value);
 		free(key);
 		free(value);
 		++envp;
