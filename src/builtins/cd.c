@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:44:23 by macbook           #+#    #+#             */
-/*   Updated: 2024/05/01 17:33:49 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:24:59 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,11 @@
 int	pwd_cmd(void)
 {
 	char	*dir;
-	size_t	size_dir;
 
-	size_dir = 1024;
-	dir = malloc(size_dir);
-	if (!dir)
-	{
-		ft_putstr_fd("Memory alloc failed", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
-	if (!getcwd(dir, size_dir))
-	{
-		ft_putstr_fd("Cant't find directory", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-	}
+	dir = getcwd(NULL, 0);
 	ft_putstr_fd(dir, STDOUT_FILENO);
 	ft_putstr_fd("\n", STDOUT_FILENO);
+	free(dir);
 	return (0);
 }
 
