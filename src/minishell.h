@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 17:08:58 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/01 18:34:19 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,9 @@ int		pwd_cmd(void);
 
 /* env_cmd */
 int		env_cmd(t_env *env);
+
+/* export.c */
+int		export_cmd(t_env *env, char **argv);
 
 /* exec_builtins.c */
 int		exec_cmd(t_cmd *cmd, t_env *env);
