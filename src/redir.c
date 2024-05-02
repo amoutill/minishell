@@ -6,13 +6,13 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/04/30 21:11:51 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:59:23 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	in_redir_open(t_exec exec_data)
+int	in_redir_open(t_exec exec_data)
 {
 	int	fd;
 
@@ -20,14 +20,20 @@ void	in_redir_open(t_exec exec_data)
 	if (fd == -1)
 	{
 		open_err(exec_data.current_tk->str);
-		free_and_close_child(exec_data);
-		exit(1);
+		if (exec_data.current_cmd->in_fd != -1)
+			close(exec_data.current_cmd->in_fd);
+		if (exec_data.current_cmd->out_fd != -1)
+			close(exec_data.current_cmd->out_fd);
+		return (1);
 	}
 	else
+	{
 		dup_and_close(fd, &exec_data.current_cmd->in_fd);
+		return (0);
+	}
 }
 
-void	out_redir_open(t_exec exec_data)
+int	out_redir_open(t_exec exec_data)
 {
 	int	fd;
 
@@ -35,14 +41,20 @@ void	out_redir_open(t_exec exec_data)
 	if (fd == -1)
 	{
 		open_err(exec_data.current_tk->str);
-		free_and_close_child(exec_data);
-		exit(1);
+		if (exec_data.current_cmd->in_fd != -1)
+			close(exec_data.current_cmd->in_fd);
+		if (exec_data.current_cmd->out_fd != -1)
+			close(exec_data.current_cmd->out_fd);
+		return (1);
 	}
 	else
+	{
 		dup_and_close(fd, &exec_data.current_cmd->out_fd);
+		return (0);
+	}
 }
 
-void	out_append_open(t_exec exec_data)
+int	out_append_open(t_exec exec_data)
 {
 	int	fd;
 
@@ -50,14 +62,20 @@ void	out_append_open(t_exec exec_data)
 	if (fd == -1)
 	{
 		open_err(exec_data.current_tk->str);
-		free_and_close_child(exec_data);
-		exit(1);
+		if (exec_data.current_cmd->in_fd != -1)
+			close(exec_data.current_cmd->in_fd);
+		if (exec_data.current_cmd->out_fd != -1)
+			close(exec_data.current_cmd->out_fd);
+		return (1);
 	}
 	else
+	{
 		dup_and_close(fd, &exec_data.current_cmd->out_fd);
+		return (0);
+	}
 }
 
-void	in_here_doc_open(t_exec exec_data)
+int	in_here_doc_open(t_exec exec_data)
 {
 	int		pipe_fd[2];
 	char	*buff;
@@ -68,20 +86,34 @@ void	in_here_doc_open(t_exec exec_data)
 	free(buff);
 	close(pipe_fd[1]);
 	dup_and_close(pipe_fd[0], &exec_data.current_cmd->in_fd);
+	return (0);
 }
 
-void	redir_open(t_exec exec_data)
+int	redir_open(t_exec exec_data)
 {
 	while (exec_data.current_tk && exec_data.current_tk->type != pope)
 	{
 		if (exec_data.current_tk->type == in_redir)
-			in_redir_open(exec_data);
+		{
+			if (in_redir_open(exec_data))
+				return (1);
+		}
 		else if (exec_data.current_tk->type == out_redir)
-			out_redir_open(exec_data);
+		{
+			if (out_redir_open(exec_data))
+				return (1);
+		}
 		else if (exec_data.current_tk->type == out_append)
-			out_append_open(exec_data);
+		{
+			if (out_append_open(exec_data))
+				return (1);
+		}
 		else if (exec_data.current_tk->type == in_here_doc)
-			in_here_doc_open(exec_data);
+		{
+			if (in_here_doc_open(exec_data))
+				return (1);
+		}
 		exec_data.current_tk = exec_data.current_tk->next;
 	}
+	return (0);
 }

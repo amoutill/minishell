@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 13:55:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 15:40:26 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:10:35 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	echo_cmd(char **argv)
 	int		nl;
 
 	i = 1;
+	if (!argv[i])
+		return (0);
 	if (!ft_strncmp(argv[i], "-n", -1))
 	{
 		nl = 0;

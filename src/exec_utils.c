@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/30 20:14:23 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:08:14 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,24 @@
 
 extern int	g_last_signal;
 
-void	exit_if_invalid_cmd(char *cmd_path)
+void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 {
 	struct stat	cmd_stat;
 
-	stat(cmd_path, &cmd_stat);
+	if(stat(cmd_path, &cmd_stat))
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(cmd_path, STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		free_and_close_child(exec_data);
+		exit(127);
+	}
 	if (S_ISDIR(cmd_stat.st_mode))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
 		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
+		free_and_close_child(exec_data);
 		exit(126);
 	}
 	if (!(cmd_stat.st_mode & S_IXUSR))
@@ -31,6 +39,7 @@ void	exit_if_invalid_cmd(char *cmd_path)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+		free_and_close_child(exec_data);
 		exit(126);
 	}
 }
@@ -58,7 +67,8 @@ int	wait_cmd(pid_t *pid, size_t nb_cmd)
 	i = 0;
 	while (i < nb_cmd)
 	{
-		waitpid(pid[i], &stat_loc, 0);
+		if (pid[i] != -1)
+			waitpid(pid[i], &stat_loc, 0);
 		++i;
 	}
 	if (g_last_signal)
@@ -66,7 +76,9 @@ int	wait_cmd(pid_t *pid, size_t nb_cmd)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		g_last_signal = 0;
 	}
-	if (WIFEXITED(stat_loc))
+	if (pid[i - 1] == -1)
+		return (1);
+	else if (WIFEXITED(stat_loc))
 		return (WEXITSTATUS(stat_loc));
 	else if (WIFSIGNALED(stat_loc))
 		return (128 + WTERMSIG(stat_loc));

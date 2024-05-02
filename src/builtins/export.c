@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:27:35 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 19:31:47 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:05:20 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ void	export_val(char *str, t_env *env)
 int	export_cmd(t_env *env, char **argv)
 {
 	int		i;
+	int		err;
 
 	i = 1;
+	err = 0;
 	if (!argv[1])
 		return (export_noarg(env));
 	while (argv[i])
@@ -93,10 +95,11 @@ int	export_cmd(t_env *env, char **argv)
 		if (!is_valid_export(argv[i]))
 		{
 			++i;
+			err = 1;
 			continue ;
 		}
 		export_val(argv[i], env);
 		++i;
 	}
-	return (0);
+	return (err);
 }

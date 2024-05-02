@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 17:13:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/04/17 19:06:35 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:02:52 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ char	*parse_envar_key(char **cmdline)
 		&& **cmdline != '\'' && **cmdline != '\"')
 	{
 		str_add_char(&key, **cmdline);
+		if (**cmdline == '?')
+		{
+			++(*cmdline);
+			break ;
+		}
 		++(*cmdline);
 	}
 	return (key);

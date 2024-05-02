@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 21:12:46 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:09:00 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	exec_forked(t_exec exec_data)
 			free_and_close_child(exec_data);
 			exit(127);
 		}
-		exit_if_invalid_cmd(cmd_path);
+		exit_if_invalid_cmd(exec_data, cmd_path);
 		envp = init_envp(exec_data.env);
 		execve(cmd_path, exec_data.current_cmd->argv, envp);
 		perror(cmd_path);
@@ -67,23 +67,27 @@ int	exec(t_exec exec_data)
 	while (i < nb_cmd)
 	{
 		setup_pipes(&exec_data, pipe_fd, nb_cmd, i);
-		redir_open(exec_data);
-		if (nb_cmd == 1 && is_builtin(exec_data.current_cmd->argv[0]))
+		if (!redir_open(exec_data))
 		{
-			free(pid);
-			return (builtins_tortilla(exec_data));
-		}
-		else
-		{
-			pid[i] = fork();
-			if (pid[i] == 0)
+			if (nb_cmd == 1 && is_builtin(exec_data.current_cmd->argv[0]))
 			{
 				free(pid);
-				exec_forked(exec_data);
+				return (builtins_tortilla(exec_data));
 			}
-			close_fds(exec_data.current_cmd->in_fd,
-				exec_data.current_cmd->out_fd);
+			else
+			{
+				pid[i] = fork();
+				if (pid[i] == 0)
+				{
+					free(pid);
+					exec_forked(exec_data);
+				}
+				close_fds(exec_data.current_cmd->in_fd,
+					exec_data.current_cmd->out_fd);
+			}
 		}
+		else
+			pid[i] = -1;
 		i++;
 		exec_data.current_cmd = exec_data.current_cmd->next;
 		advance_to_next_pipe_tk(&exec_data);
