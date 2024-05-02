@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 18:10:59 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:33:14 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	exec(t_exec exec_data)
 	while (i < nb_cmd)
 	{
 		setup_pipes(&exec_data, pipe_fd, nb_cmd, i);
-		tmr = redir_open(exec_data, pipe_fd[0]);
+		tmr = redir_open(exec_data, pipe_fd);
 		if (!tmr)
 		{
 			if (nb_cmd == 1 && is_builtin(exec_data.current_cmd->argv[0]))
@@ -78,8 +78,6 @@ int	exec(t_exec exec_data)
 				pid[i] = fork();
 				if (pid[i] == 0)
 					exec_forked(exec_data);
-				close_fds(exec_data.current_cmd->in_fd,
-					exec_data.current_cmd->out_fd);
 			}
 		}
 		else
@@ -95,6 +93,7 @@ int	exec(t_exec exec_data)
 				break ;
 			}
 		}
+		close_fds(exec_data.current_cmd->in_fd, exec_data.current_cmd->out_fd);
 		i++;
 		exec_data.current_cmd = exec_data.current_cmd->next;
 		advance_to_next_pipe_tk(&exec_data);

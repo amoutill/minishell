@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 17:14:44 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:28:39 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	setup_pipes(t_exec *exec_data, int pipe_fd[2], size_t nb_cmd, size_t i);
 char	*ft_which(t_env *env, char *cmd);
 
 /* redir.c */
-int		redir_open(t_exec exec_data, int fd_tmr);
+int		redir_open(t_exec exec_data, int fd_tmr[2]);
 
 /* redir_utils.c */
 void	open_err(char *file);
