@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 15:52:27 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 16:09:00 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:10:59 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,44 +55,52 @@ void	exec_forked(t_exec exec_data)
 
 int	exec(t_exec exec_data)
 {
-	pid_t	*pid;
+	pid_t	pid[4096];
 	size_t	nb_cmd;
 	size_t	i;
 	int		pipe_fd[2];
 	int		retval;
+	int		tmr;
 
+	pipe_fd[0] = -1;
 	nb_cmd = count_cmd(exec_data.cmd);
-	pid = malloc(sizeof(pid_t) * nb_cmd);
 	i = 0;
 	while (i < nb_cmd)
 	{
 		setup_pipes(&exec_data, pipe_fd, nb_cmd, i);
-		if (!redir_open(exec_data))
+		tmr = redir_open(exec_data, pipe_fd[0]);
+		if (!tmr)
 		{
 			if (nb_cmd == 1 && is_builtin(exec_data.current_cmd->argv[0]))
-			{
-				free(pid);
 				return (builtins_tortilla(exec_data));
-			}
 			else
 			{
 				pid[i] = fork();
 				if (pid[i] == 0)
-				{
-					free(pid);
 					exec_forked(exec_data);
-				}
 				close_fds(exec_data.current_cmd->in_fd,
 					exec_data.current_cmd->out_fd);
 			}
 		}
 		else
+		{
 			pid[i] = -1;
+			if (tmr < -1)
+			{
+				if (pipe_fd[0] != -1)
+				{
+					close(pipe_fd[0]);
+					close(pipe_fd[1]);
+				}
+				break ;
+			}
+		}
 		i++;
 		exec_data.current_cmd = exec_data.current_cmd->next;
 		advance_to_next_pipe_tk(&exec_data);
 	}
+	if (tmr)
+		return (tmr);
 	retval = wait_cmd(pid, nb_cmd);
-	free(pid);
 	return (retval);
 }

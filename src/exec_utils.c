@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 16:17:58 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:17:37 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ int	wait_cmd(pid_t *pid, size_t nb_cmd)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		g_last_signal = 0;
 	}
-	if (pid[i - 1] == -1)
-		return (1);
+	if (pid[i - 1] <= -1)
+		return (-pid[i - 1]);
 	else if (WIFEXITED(stat_loc))
 		return (WEXITSTATUS(stat_loc));
 	else if (WIFSIGNALED(stat_loc))
