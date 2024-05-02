@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 19:16:49 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 20:47:27 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,7 @@ void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 	struct stat	cmd_stat;
 
 	if (stat(cmd_path, &cmd_stat))
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd_path, STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-		free_and_close_child(exec_data);
-		free(cmd_path);
-		exit(127);
-	}
+		write_free_close_and_exit(exec_data, cmd_path);
 	if (S_ISDIR(cmd_stat.st_mode))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);

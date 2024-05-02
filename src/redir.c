@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/05/02 19:28:26 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 21:14:48 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,40 +75,16 @@ int	out_append_open(t_exec exec_data)
 	}
 }
 
-int	in_here_doc_open(t_exec exec_data, int fd_tmr[])
+int	in_here_doc_open(t_exec exec_data, int fd_tmr[2])
 {
 	int		pipe_fd[2];
 	int		stat_loc;
-	char	*buff;
-	char	*eof;
 	pid_t	pid;
 
 	pipe(pipe_fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		if (fd_tmr[0] != -1)
-			close(fd_tmr[0]);
-		if (fd_tmr[1] != -1)
-			close(fd_tmr[1]);
-		eof = ft_strdup(exec_data.current_tk->str);
-		if (exec_data.current_cmd->in_fd != -1)
-			close(exec_data.current_cmd->in_fd);
-		if (exec_data.current_cmd->out_fd != -1)
-			close(exec_data.current_cmd->out_fd);
-		free_env(exec_data.env);
-		free_cmd(exec_data.cmd);
-		free_tklst(exec_data.tklst);
-		rl_clear_history();
-		close(pipe_fd[0]);
-		buff = readline_here_doc(eof);
-		free(eof);
-		ft_putstr_fd(buff, pipe_fd[1]);
-		free(buff);
-		close(pipe_fd[1]);
-		exit(EXIT_SUCCESS);
-	}
+		here_doc_forked(fd_tmr, exec_data, pipe_fd);
 	close(pipe_fd[1]);
 	waitpid(pid, &stat_loc, 0);
 	if (WIFSIGNALED(stat_loc))
@@ -126,21 +102,14 @@ int	redir_open(t_exec exec_data, int fd_tmr[2])
 
 	while (exec_data.current_tk && exec_data.current_tk->type != pope)
 	{
-		if (exec_data.current_tk->type == in_redir)
-		{
-			if (in_redir_open(exec_data))
-				return (1);
-		}
-		else if (exec_data.current_tk->type == out_redir)
-		{
-			if (out_redir_open(exec_data))
-				return (1);
-		}
-		else if (exec_data.current_tk->type == out_append)
-		{
-			if (out_append_open(exec_data))
-				return (1);
-		}
+		if (exec_data.current_tk->type == in_redir && in_redir_open(exec_data))
+			return (1);
+		else if (exec_data.current_tk->type == out_redir
+			&& out_redir_open(exec_data))
+			return (1);
+		else if (exec_data.current_tk->type == out_append
+			&& out_append_open(exec_data))
+			return (1);
 		else if (exec_data.current_tk->type == in_here_doc)
 		{
 			tmr = in_here_doc_open(exec_data, fd_tmr);
