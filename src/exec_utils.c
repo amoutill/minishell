@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 18:17:37 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:16:49 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 {
 	struct stat	cmd_stat;
 
-	if(stat(cmd_path, &cmd_stat))
+	if (stat(cmd_path, &cmd_stat))
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
