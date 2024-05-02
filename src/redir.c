@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/05/02 18:17:13 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 19:28:26 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	out_append_open(t_exec exec_data)
 	}
 }
 
-int	in_here_doc_open(t_exec exec_data, int fd_tmr)
+int	in_here_doc_open(t_exec exec_data, int fd_tmr[])
 {
 	int		pipe_fd[2];
 	int		stat_loc;
@@ -88,6 +88,10 @@ int	in_here_doc_open(t_exec exec_data, int fd_tmr)
 	if (pid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
+		if (fd_tmr[0] != -1)
+			close(fd_tmr[0]);
+		if (fd_tmr[1] != -1)
+			close(fd_tmr[1]);
 		eof = ft_strdup(exec_data.current_tk->str);
 		if (exec_data.current_cmd->in_fd != -1)
 			close(exec_data.current_cmd->in_fd);
@@ -103,8 +107,6 @@ int	in_here_doc_open(t_exec exec_data, int fd_tmr)
 		ft_putstr_fd(buff, pipe_fd[1]);
 		free(buff);
 		close(pipe_fd[1]);
-		if (fd_tmr != -1)
-			close(fd_tmr);
 		exit(EXIT_SUCCESS);
 	}
 	close(pipe_fd[1]);
@@ -118,9 +120,9 @@ int	in_here_doc_open(t_exec exec_data, int fd_tmr)
 	return (0);
 }
 
-int	redir_open(t_exec exec_data, int fd_tmr)
+int	redir_open(t_exec exec_data, int fd_tmr[2])
 {
-	int tmr;
+	int	tmr;
 
 	while (exec_data.current_tk && exec_data.current_tk->type != pope)
 	{
