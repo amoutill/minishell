@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 16:55:26 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 16:08:14 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:17:58 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 		free_and_close_child(exec_data);
+		free(cmd_path);
 		exit(127);
 	}
 	if (S_ISDIR(cmd_stat.st_mode))
@@ -32,6 +33,7 @@ void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
 		ft_putstr_fd(": Is a directory\n", STDERR_FILENO);
 		free_and_close_child(exec_data);
+		free(cmd_path);
 		exit(126);
 	}
 	if (!(cmd_stat.st_mode & S_IXUSR))
@@ -40,6 +42,7 @@ void	exit_if_invalid_cmd(t_exec exec_data, char *cmd_path)
 		ft_putstr_fd(cmd_path, STDERR_FILENO);
 		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 		free_and_close_child(exec_data);
+		free(cmd_path);
 		exit(126);
 	}
 }
