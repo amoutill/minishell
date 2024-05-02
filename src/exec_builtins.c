@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 19:17:12 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/01 21:06:50 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/02 18:53:20 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	exec_cmd(t_exec exec_data, int stdin_bkp, int stdout_bkp)
 
 int	is_builtin(char *cmd)
 {
+	if (!cmd)
+		return (0);
 	if (ft_strncmp(cmd, "echo", -1) == 0)
 		return (1);
 	if (ft_strncmp(cmd, "cd", -1) == 0)
