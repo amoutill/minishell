@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:10:10 by amoutill          #+#    #+#             */
-/*   Updated: 2024/05/01 16:39:14 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:42:46 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	set_env(t_env *env, char *key, char *value)
 		env->next = new_env(key, value);
 }
 
-t_env	*init_env(const char *envp[])
+t_env	*init_env(char *envp[])
 {
 	t_env	*env;
 	size_t	i;

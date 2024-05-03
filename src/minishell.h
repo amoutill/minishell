@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:39:39 by blebas            #+#    #+#             */
-/*   Updated: 2024/05/02 21:26:47 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:53:21 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void			print_stx_err(t_tktype type);
 /* env.c */
 t_env			*new_env(char *key, char *value);
 void			set_env(t_env *env, char *key, char *value);
-t_env			*init_env(const char *envp[]);
+t_env			*init_env(char *envp[]);
 char			*get_env(t_env *env, char *key);
 void			free_env(t_env *env);
 
@@ -216,6 +216,7 @@ char			*readline_here_doc(char *eof);
 /* signals.c */
 void			sigint_handler(int sig);
 void			sig_handler_incmd(int sig);
+void			sig_handler_inheredoc(int sig);
 
 /* exec_thingies.c */
 t_ilovethenorm	init_things(t_cmd *some_cmd);
@@ -223,6 +224,9 @@ void			other_things(t_exec *exec_data, t_ilovethenorm *aaa);
 void			other_things_but_in_else(t_exec exec_data, t_ilovethenorm *aaa);
 void			closing_pipey_things(t_ilovethenorm *aaa);
 void			bottom_of_while_things(t_exec *exec_data, t_ilovethenorm *aaa);
+
+/* main_utils.c */
+int				exec_in_main(t_exec *exec_data);
 
 /* ***************** */
 /*     BUILTINS      */

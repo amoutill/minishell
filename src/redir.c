@@ -6,7 +6,7 @@
 /*   By: blebas <blebas@student.42lehavre.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 19:55:48 by amoutill          #+#    #+#             */
-/*   Updated: 2024/05/02 21:14:48 by blebas           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:26:02 by blebas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,14 @@ int	in_here_doc_open(t_exec exec_data, int fd_tmr[2])
 	pid = fork();
 	if (pid == 0)
 		here_doc_forked(fd_tmr, exec_data, pipe_fd);
+	signal(SIGINT, sig_handler_inheredoc);
 	close(pipe_fd[1]);
 	waitpid(pid, &stat_loc, 0);
+	signal(SIGINT, sig_handler_incmd);
 	if (WIFSIGNALED(stat_loc))
 	{
 		close(pipe_fd[0]);
-		return (128 + WTERMSIG(stat_loc));
+		return (-(128 + WTERMSIG(stat_loc)));
 	}
 	dup_and_close(pipe_fd[0], &exec_data.current_cmd->in_fd);
 	return (0);
